@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quiz App</title>
+  <title>Kuis P3K untuk kekasihku</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
-    <h1>Quiz App</h1>
+    <h1>Kuis P3K untuk kekasihku</h1>
     <form id="quizForm">
       <label for="kategori">Pilih Kategori:</label>
       <select id="kategori" name="kategori">
@@ -21,10 +21,11 @@
       <label for="jumlah">Jumlah Soal:</label>
       <input type="number" id="jumlah" name="jumlah" min="1" max="100" value="5">
       <br><br>
-      <button type="submit">Mulai Quiz</button>
+      <button type="submit">Mulai Kuis</button>
       <button type="button" id="lihatSemua">Lihat Semua Soal</button>
     </form>
 
+    <input type="text" id="searchInput" placeholder="Cari pertanyaan..." style="width:100%; margin-top:20px; padding:10px; display:none;">
     <div id="quizContainer"></div>
     <button id="loadMore" style="display:none">Muat Soal Berikutnya</button>
     <div id="result"></div>
@@ -36,6 +37,7 @@
     let soalDitampilkan = 0
     let soalMax = 0
     let jawabanPengguna = {}
+    let semuaSoal = []
 
     function tampilkanSoal() {
       const container = document.getElementById('quizContainer')
@@ -73,6 +75,8 @@
       const result = document.getElementById('result')
       result.innerHTML = '<h3>Hasil:</h3>'
 
+      let benar = 0
+
       soalAcak.forEach((soal, i) => {
         const radios = document.getElementsByName(`soal_${i}`)
         let jawaban = null
@@ -84,7 +88,9 @@
         }
         jawabanPengguna[i] = jawaban
 
-        if (jawaban !== soal.jawaban) {
+        if (jawaban === soal.jawaban) {
+          benar++
+        } else {
           const div = document.createElement('div')
           div.classList.add('salah')
           div.innerHTML = `
@@ -95,6 +101,20 @@
           result.appendChild(div)
         }
       })
+
+      const skor = Math.round((benar / soalMax) * 100)
+      const skorText = document.createElement('div')
+      skorText.innerHTML = `<h4>Nilaita: ${skor}%</h4>`
+
+      if (skor < 80) {
+        skorText.innerHTML += `<p>Yuk belajar lebih giat lagi ya sayangkuu, pasti bisa lebih baik lagi ❤️</p>`
+      } else if (skor > 90) {
+        skorText.innerHTML += `<p>Wah hebat sayangku! bangga dan makin sayang sama sayangkuu ❤️🥰</p>`
+      } else {
+        skorText.innerHTML += `<p>Nice sayang, tetap semangat ya cintaku ✨</p>`
+      }
+
+      result.prepend(skorText)
     }
 
     document.getElementById('quizForm').addEventListener('submit', function(e) {
@@ -111,6 +131,7 @@
           soalAcak = soalData.sort(() => 0.5 - Math.random()).slice(0, soalMax)
           document.getElementById('quizContainer').innerHTML = ''
           document.getElementById('result').innerHTML = ''
+          document.getElementById('searchInput').style.display = 'none'
           tampilkanSoal()
         })
     })
@@ -120,18 +141,32 @@
       fetch('soal.json')
         .then(res => res.json())
         .then(data => {
-          const semua = data[kategori] || []
+          semuaSoal = data[kategori] || []
           const container = document.getElementById('quizContainer')
           container.innerHTML = '<h3>Semua Soal:</h3>'
-          semua.forEach((soal, i) => {
-            const div = document.createElement('div')
-            div.classList.add('soal')
-            div.innerHTML = `
-              <strong>${i + 1}. ${soal.pertanyaan}</strong><br>
-              ${soal.pilihan.map((p, idx) => `${String.fromCharCode(65 + idx)}. ${p}`).join('<br>')}<br><br>`
-            container.appendChild(div)
-          })
+          document.getElementById('searchInput').style.display = 'block'
+          renderSemuaSoal(semuaSoal)
         })
+    })
+
+    function renderSemuaSoal(soalList) {
+      const container = document.getElementById('quizContainer')
+      container.innerHTML = ''
+      soalList.forEach((soal, i) => {
+        const div = document.createElement('div')
+        div.classList.add('soal')
+        div.innerHTML = `
+          <strong>${i + 1}. ${soal.pertanyaan}</strong><br>
+          ${soal.pilihan.map((p, idx) => `${String.fromCharCode(65 + idx)}. ${p}`).join('<br>')}<br>
+          <em><strong>Jawaban Benar:</strong> ${soal.pilihan[soal.jawaban]}</em><br><br>`
+        container.appendChild(div)
+      })
+    }
+
+    document.getElementById('searchInput').addEventListener('input', function() {
+      const keyword = this.value.toLowerCase()
+      const hasilFilter = semuaSoal.filter(soal => soal.pertanyaan.toLowerCase().includes(keyword))
+      renderSemuaSoal(hasilFilter)
     })
 
     document.getElementById('loadMore').addEventListener('click', tampilkanSoal)
