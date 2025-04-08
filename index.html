@@ -1,4 +1,4 @@
-<!-- index.html (modifikasi tambahan fitur timer + unduh hasil) -->
+<!-- index.html (dengan notifikasi waktu habis + auto scroll) -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -49,7 +49,9 @@
       timerInterval = setInterval(() => {
         if (waktuSisa <= 0) {
           clearInterval(timerInterval)
+          alert('Waktu habis ya sayangku 💔, ini hasilta.')
           periksaJawaban()
+          document.getElementById('result').scrollIntoView({ behavior: 'smooth' })
         } else {
           const menit = Math.floor(waktuSisa / 60)
           const detik = waktuSisa % 60
@@ -81,7 +83,10 @@
         document.getElementById('loadMore').style.display = 'none'
         const selesaiBtn = document.createElement('button')
         selesaiBtn.textContent = 'Selesai'
-        selesaiBtn.onclick = periksaJawaban
+        selesaiBtn.onclick = () => {
+          periksaJawaban()
+          document.getElementById('result').scrollIntoView({ behavior: 'smooth' })
+        }
         container.appendChild(selesaiBtn)
       } else {
         document.getElementById('loadMore').style.display = 'block'
