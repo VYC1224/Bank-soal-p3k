@@ -1,3 +1,4 @@
+<!-- index.html (modifikasi tambahan fitur timer + unduh hasil) -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -16,15 +17,16 @@
         <option value="manajerial">Manajerial</option>
         <option value="sosio_kultural">Sosio Kultural</option>
         <option value="wawancara">Wawancara</option>
-      </select>
-      <br><br>
+      </select><br><br>
+
       <label for="jumlah">Jumlah Soal:</label>
-      <input type="number" id="jumlah" name="jumlah" min="1" max="100" value="5">
-      <br><br>
+      <input type="number" id="jumlah" name="jumlah" min="1" max="100" value="5"><br><br>
+
       <button type="submit">Mulai Kuis</button>
       <button type="button" id="lihatSemua">Lihat Semua Soal</button>
     </form>
 
+    <div id="timer" style="font-weight: bold; font-size: 18px; margin: 10px 0;"></div>
     <input type="text" id="searchInput" placeholder="Cari pertanyaan..." style="width:100%; margin-top:20px; padding:10px; display:none;">
     <div id="quizContainer"></div>
     <button id="loadMore" style="display:none">Muat Soal Berikutnya</button>
@@ -38,6 +40,24 @@
     let soalMax = 0
     let jawabanPengguna = {}
     let semuaSoal = []
+    let timerInterval
+    let waktuSisa = 0
+    let kategoriDipilih = ''
+
+    function mulaiTimer() {
+      const timerDiv = document.getElementById('timer')
+      timerInterval = setInterval(() => {
+        if (waktuSisa <= 0) {
+          clearInterval(timerInterval)
+          periksaJawaban()
+        } else {
+          const menit = Math.floor(waktuSisa / 60)
+          const detik = waktuSisa % 60
+          timerDiv.textContent = `Sisa waktu: ${menit}:${detik.toString().padStart(2, '0')}`
+          waktuSisa--
+        }
+      }, 1000)
+    }
 
     function tampilkanSoal() {
       const container = document.getElementById('quizContainer')
@@ -51,10 +71,7 @@
         div.innerHTML = `
           <h4>${i + 1}. ${soal.pertanyaan}</h4>
           ${soal.pilihan.map((p, idx) => `
-            <label>
-              <input type="radio" name="soal_${i}" value="${idx}">
-              ${p}
-            </label><br>`).join('')}
+            <label><input type="radio" name="soal_${i}" value="${idx}"> ${p}</label><br>`).join('')}
         `
         container.appendChild(div)
       }
@@ -72,10 +89,14 @@
     }
 
     function periksaJawaban() {
+      clearInterval(timerInterval)
+      document.getElementById('timer').textContent = ''
+
       const result = document.getElementById('result')
       result.innerHTML = '<h3>Hasil:</h3>'
 
       let benar = 0
+      const hasilDetail = []
 
       soalAcak.forEach((soal, i) => {
         const radios = document.getElementsByName(`soal_${i}`)
@@ -88,51 +109,75 @@
         }
         jawabanPengguna[i] = jawaban
 
-        if (jawaban === soal.jawaban) {
-          benar++
-        } else {
+        const benarJawab = jawaban === soal.jawaban
+        if (benarJawab) benar++
+        else {
           const div = document.createElement('div')
           div.classList.add('salah')
           div.innerHTML = `
             <strong>Soal ${i + 1}:</strong> ${soal.pertanyaan}<br>
             Jawaban Anda: ${soal.pilihan[jawaban] || 'Tidak Dijawab'}<br>
-            Jawaban Benar: ${soal.pilihan[soal.jawaban]}
-          `
+            Jawaban Benar: ${soal.pilihan[soal.jawaban]}`
           result.appendChild(div)
         }
+
+        hasilDetail.push({
+          pertanyaan: soal.pertanyaan,
+          jawaban_pengguna: soal.pilihan[jawaban] || null,
+          jawaban_benar: soal.pilihan[soal.jawaban],
+          benar: benarJawab
+        })
       })
 
       const skor = Math.round((benar / soalMax) * 100)
       const skorText = document.createElement('div')
       skorText.innerHTML = `<h4>Nilaita: ${skor}%</h4>`
 
-      if (skor < 80) {
-        skorText.innerHTML += `<p>Yuk belajar lebih giat lagi ya sayangkuu, pasti bisa lebih baik lagi ❤️</p>`
-      } else if (skor > 90) {
-        skorText.innerHTML += `<p>Wah hebat sayangku! bangga dan makin sayang sama sayangkuu ❤️🥰</p>`
-      } else {
-        skorText.innerHTML += `<p>Nice sayang, tetap semangat ya cintaku ✨</p>`
-      }
+      if (skor < 80) skorText.innerHTML += `<p>Yuk belajar lebih giat lagi ya sayangkuu ❤️</p>`
+      else if (skor > 90) skorText.innerHTML += `<p>Wah hebat sayangku! Bangga dan makin sayang 🥰</p>`
+      else skorText.innerHTML += `<p>Nice sayang, tetap semangat ya cintaku ✨</p>`
 
+      const unduhBtn = document.createElement('button')
+      unduhBtn.textContent = 'Unduh Hasil Kuis'
+      unduhBtn.onclick = () => {
+        const hasilData = {
+          tanggal: new Date().toISOString(),
+          kategori: kategoriDipilih,
+          jumlah_soal: soalMax,
+          jumlah_benar: benar,
+          skor: skor,
+          jawaban: hasilDetail
+        }
+        const blob = new Blob([JSON.stringify(hasilData, null, 2)], { type: 'application/json' })
+        const url = URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = url
+        a.download = 'hasil-kuis.json'
+        a.click()
+        URL.revokeObjectURL(url)
+      }
       result.prepend(skorText)
+      result.appendChild(unduhBtn)
     }
 
     document.getElementById('quizForm').addEventListener('submit', function(e) {
       e.preventDefault()
-      const kategori = document.getElementById('kategori').value
+      kategoriDipilih = document.getElementById('kategori').value
       soalMax = parseInt(document.getElementById('jumlah').value)
       soalDitampilkan = 0
       jawabanPengguna = {}
+      waktuSisa = soalMax * 60
 
       fetch('soal.json')
         .then(res => res.json())
         .then(data => {
-          soalData = data[kategori] || []
+          soalData = data[kategoriDipilih] || []
           soalAcak = soalData.sort(() => 0.5 - Math.random()).slice(0, soalMax)
           document.getElementById('quizContainer').innerHTML = ''
           document.getElementById('result').innerHTML = ''
           document.getElementById('searchInput').style.display = 'none'
           tampilkanSoal()
+          mulaiTimer()
         })
     })
 
