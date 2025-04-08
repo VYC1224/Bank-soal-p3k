@@ -632,21 +632,6 @@
         "jawaban": 1
       },
     {
-      "pertanyaan": "Apa fungsi dari RAM?",
-      "pilihan": ["Menyimpan permanen", "Meningkatkan grafis", "Menyimpan sementara", "Menjaga suhu"],
-      "jawaban": 2
-    },
-    {
-      "pertanyaan": "Bahasa pemrograman berikut yang bukan untuk web?",
-      "pilihan": ["JavaScript", "Python", "HTML", "CSS"],
-      "jawaban": 1
-    },
-    {
-      "pertanyaan": "CSS digunakan untuk?",
-      "pilihan": ["Logika program", "Struktur data", "Tampilan halaman", "Proses server"],
-      "jawaban": 2
-    },
-    {
       "soal": [
       {
       "pertanyaan": "Guru yang baru saja dimutasi ke sekolah saya mendapatkan kepercayaan untuk menjadi ketua KKG, sedangkan saya yang sudah lama belum mendapatkan posisi tersebut. Respon saya...",
@@ -3061,32 +3046,7 @@
       "Memberikan nilai lebih"
       ],
       "jawaban": 1
-      },
-    {
-      "pertanyaan": "Apa tugas utama seorang manajer?",
-      "pilihan": ["Mendesain produk", "Mengelola tim", "Menjual barang", "Mengetik laporan"],
-      "jawaban": 1
-    },
-    {
-      "pertanyaan": "Kepemimpinan yang baik adalah?",
-      "pilihan": ["Otoriter", "Transparan", "Misterius", "Diam"],
-      "jawaban": 1
-    },
-    {
-      "pertanyaan": "Fungsi manajemen yang pertama?",
-      "pilihan": ["Kontrol", "Perencanaan", "Pengawasan", "Evaluasi"],
-      "jawaban": 1
-    },
-    {
-      "pertanyaan": "Rapat efektif harus?",
-      "pilihan": ["Banyak peserta", "Tanpa agenda", "Terjadwal jelas", "Bertahun-tahun"],
-      "jawaban": 2
-    },
-    {
-      "pertanyaan": "Contoh komunikasi dua arah?",
-      "pilihan": ["Mendengarkan radio", "Nonton TV", "Diskusi kelompok", "Baca buku"],
-      "jawaban": 2
-    }
+      }
   ],
   "sosio_kultural": [
       {
@@ -3848,58 +3808,724 @@
       "Mengajarkan tentang menghargai perbedaan yang tersirat di setiap pelajaran."
       ],
       "jawaban": 3
-      },
-    {
-      "pertanyaan": "Apa itu keberagaman?",
-      "pilihan": ["Perbedaan yang disatukan", "Kesamaan budaya", "Satu agama", "Persatuan wilayah"],
-      "jawaban": 0
-    },
-    {
-      "pertanyaan": "Menghargai budaya lain artinya?",
-      "pilihan": ["Menghindari budaya itu", "Mengolok-olok", "Menolak", "Mengakui dan menghormati"],
-      "jawaban": 3
-    },
-    {
-      "pertanyaan": "Sikap toleran berarti?",
-      "pilihan": ["Ikut semua budaya", "Diam saja", "Menghormati perbedaan", "Melarang perbedaan"],
-      "jawaban": 2
-    },
-    {
-      "pertanyaan": "Contoh kerja sama antarbudaya?",
-      "pilihan": ["Perang budaya", "Festival budaya bersama", "Demo budaya", "Boikot budaya lain"],
-      "jawaban": 1
-    },
-    {
-      "pertanyaan": "Pancasila sila ke-3 berbunyi?",
-      "pilihan": ["Persatuan Indonesia", "Kemanusiaan yang adil", "Ketuhanan yang Maha Esa", "Keadilan sosial"],
-      "jawaban": 0
-    }
+      }
   ],
   "wawancara": [
-    {
-      "pertanyaan": "Saat ditanya kelemahan, kamu sebaiknya?",
-      "pilihan": ["Mengaku semua kesalahan", "Bohong saja", "Jawab jujur dan solusi", "Tidak jawab"],
-      "jawaban": 2
-    },
-    {
-      "pertanyaan": "Sikap tubuh saat wawancara?",
-      "pilihan": ["Bungkuk", "Kontak mata baik", "Melipat tangan", "Main HP"],
-      "jawaban": 1
-    },
-    {
-      "pertanyaan": "Jika ditanya 'kenapa ingin bekerja di sini'?",
-      "pilihan": ["Gaji tinggi", "Karena terpaksa", "Sesuai passion & visi", "Dekat rumah"],
-      "jawaban": 2
-    },
-    {
-      "pertanyaan": "Apa pentingnya riset perusahaan?",
-      "pilihan": ["Tidak penting", "Agar bisa nyontek", "Agar terlihat siap", "Biar bisa bohong"],
-      "jawaban": 2
-    },
-    {
-      "pertanyaan": "Jika tidak tahu jawabannya?",
-      "pilihan": ["Diam saja", "Ngeles", "Mengaku dan coba jawab", "Bohong"],
-      "jawaban": 2
-    }
+      {
+        "pertanyaan": "Situasi: Anda baru saja menyelesaikan tugas yang diberikan oleh pimpinan, tetapi pimpinan merasa tidak puas dan memberikan banyak kritik.  Pilihan Jawaban:",
+        "pilihan": [
+          "Menganggap Bos saya keterlaluan karena tidak menghargai pekerjaan saya.",
+          "Biasa saja karena pimpinan selalu mencari kesalahan bawahannya.",
+          "Segera memperbaiki tugas saya sesuai kritikan yang diberikan.",
+          "Meminta pimpinan menyuruh karyawan lain yang lebih senior untuk memperbaiki tugas saya agar tidak ada kesalahan lagi atau tidak ambil pusing."
+        ],
+        "jawaban": 0
+      },
+      {
+        "pertanyaan": "Pernyataan: 10 tahun ke depan anda sudah menjadi ASN melalui jalur PPPK.  Pilihan Jawaban:",
+        "pilihan": [
+          "Saya sangat setuju",
+          "Saya setuju",
+          "Saya raguragu",
+          "Saya tidak setuju atau saya sangat tidak setuju"
+        ],
+        "jawaban": 0
+      },
+      {
+        "pertanyaan": "Situasi: Pimpinan meminta dua orang karyawan untuk menyelesaikan suatu tugas, salah satunya adalah Anda, dan hasil terbaik akan dipromosikan untuk kenaikan jabatan.  Pilihan Jawaban:",
+        "pilihan": [
+          "Mengerjakan tugas dengan sungguhsungguh dan maksimal.",
+          "Mengerjakan tugas dengan ide baru.",
+          "Mencari tahu ide saingan agar tidak sama dengannya.",
+          "Mencari referensi terbaik atau bekerja seperti biasa."
+        ],
+        "jawaban": 0
+      },
+      {
+        "pertanyaan": "Pertanyaan: Tugas utama seorang guru adalah?  Pilihan Jawaban:",
+        "pilihan": [
+          "mendidik mengajar membimbing menilai dan mengevaluasi peserta didik serta mengikuti seminar pendidikan",
+          "mendidik mengajar membimbing mengarahkan dan melatih peserta didik serta mengikuti seminar pendidikan",
+          "mendidik mengarahkan melatih menilai dan mengevaluasi peserta didik serta mengikuti seminar pendidikan",
+          "mengajar mengarahkan menilai dan mengevaluasi peserta didik serta mengikuti puas seminar pendidikan",
+          "mendidik mengajar membimbing mengarahkan melatih menilai dan mengevaluasi peserta didik    Jawabn Benar : E"
+        ],
+        "jawaban": 0
+      },
+      {
+        "pertanyaan": "Pertanyaan: Anda mengikuti seleksi PPPK 2021 dan dinyatakan lulus. Saat pengumuman penempatan, ternyata anda diberikan tugas di luar daerah karena formasi dalam daerah sudah penuh. Sikap Anda adalah:",
+        "pilihan": [
+          "Saya sudah tahu akhirnya seperti ini",
+          "Menolak keputusan tersebut dan mengajukan sanggahan",
+          "Menerima keputusan tersebut dan bekerja maksimal sambil menangis sendiri menenangkan diri karena harus berpisah dengan keluarga, eh berdoa agar diberikan tugas di daerah sendiri."
+        ],
+        "jawaban": 2
+      },
+      {
+        "pertanyaan": "Pertanyaan: Pendapat anda mengenai lagu Indonesia Raya adalah:",
+        "pilihan": [
+          "Lagu kebangsaan Indonesia sebagai identitas bangsa.",
+          "Lagu yang dinyanyikan di sekolah.",
+          "Lagu yang harus dihafal oleh seluruh masyarakat.",
+          "Lagu untuk memupuk cinta bangsa atau lagu wajib saat upacara."
+        ],
+        "jawaban": 0
+      },
+      {
+        "pertanyaan": "Pertanyaan: Anda tidak terpengaruh jika ada rekan kerja anda sedang berseteru:",
+        "pilihan": [
+          "Sangat setuju",
+          "Setuju",
+          "Raguragu",
+          "Tidak setuju",
+          "Sangat tidak setuju"
+        ],
+        "jawaban": 0
+      },
+      {
+        "pertanyaan": "Pertanyaan: Jika anda diminta bekerja menggunakan aplikasi baru tetapi belum mengerti cara pengoperasiannya, maka:",
+        "pilihan": [
+          "Saya akan menolak.",
+          "Saya meminta diajarkan.",
+          "Saya mencari referensi jika ada.",
+          "Saya menerima kenyataan dengan pasrah.",
+          "Saya menerima dan segera belajar cara pengoperasiannya."
+        ],
+        "jawaban": 4
+      },
+      {
+        "pertanyaan": "Anda mencoba keberuntungan menjadi ASN dengan mengikuti seleksi PPPK Tahun 2022. Setelah dinyatakan lulus, orang tua dan keluarga Anda menolak dan meminta Anda tetap bekerja di perusahaan tempat Anda bekerja karena gajinya lebih besar. Sikap Anda adalah:",
+        "pilihan": [
+          "nda mencoba keberuntungan menjadi ASN dengan mengikuti seleksi PPPK Tahun 2022. Setelah dinyatakan lulus, orang tua dan keluarga Anda menolak dan meminta Anda tetap bekerja di perusahaan tempat Anda bekerja karena gajinya lebih besar. Sikap Anda adalah:",
+          "Saya terima saja keputusan keluarga karena saya menyayangi mereka.",
+          "Saya mengundurkan diri sebagai ASN.",
+          "Saya pikirpikir dahulu sampai saya mantap memilih yang lebih baik.",
+          "Saya akan tanya temanteman saya untuk meminta dukungan sebagai ASN.",
+          "Saya akan tetap memilih menjadi ASN dan memberikan pengertian kepada keluarga saya."
+        ],
+        "jawaban": 4
+      },
+      {
+        "pertanyaan": "Suatu hari, Anda melewati kerumunan orang yang sedang merencanakan aksi demo untuk memisahkan diri dari Indonesia. Sikap Anda adalah:",
+        "pilihan": [
+          "Tidak mau ambil pusing; mungkin itu hanya bercanda.",
+          "Menegur mereka dan menyuruh mereka bubar.",
+          "Siapkan kamera untuk merekam aksi mereka besok pagi.",
+          "Melaporkan mereka ke pihak berwajib agar segera ditangani.",
+          "Kebingungan dan mencari teman curhat."
+        ],
+        "jawaban": 3
+      },
+      {
+        "pertanyaan": "Seleksi SMS sebentar lagi akan digelar, dan Anda memilih menjadi ASN melalui jalur PPK serta meninggalkan pekerjaan saat ini dengan alasan:",
+        "pilihan": [
+          "Gaji kecil.",
+          "Merasa ditekan.",
+          "Permintaan orangtua dan keluarga.",
+          "Diajak teman dekat untuk mengikuti seleksi ASN.",
+          "Ingin mengabdikan diri kepada negara dengan cara menjadi ASN."
+        ],
+        "jawaban": 4
+      },
+      {
+        "pertanyaan": "Anda sudah bekerja sebagai ASN selama dua tahun di luar daerah, sementara keluarga meminta agar Anda mengajukan pindah agar lebih dekat dengan mereka.Sikap Anda adalah:",
+        "pilihan": [
+          "nda sudah bekerja sebagai ASN selama dua tahun di luar daerah, sementara keluarga meminta agar Anda mengajukan pindah agar lebih dekat dengan mereka.Sikap Anda adalah:",
+          "Mengajukan pindah dengan segera",
+          "Mencari apakah ada lowongan kosong di daerah anda",
+          "Memberikan pengertian pada mereka bahwa anda belum diperbolehkan untuk mengajukan pindah",
+          "Mengulurulur waktu yang tepat untuk membahas kepindahan atau tidak memperdulikan permintaan mereka"
+        ],
+        "jawaban": 2
+      },
+      {
+        "pertanyaan": "Anda merasa tidak bersemangat mengajar selama menjadi guru honorer:",
+        "pilihan": [
+          "nda merasa tidak bersemangat mengajar selama menjadi guru honorer:",
+          "Sangat setuju",
+          "Kurang setuju",
+          "Raguragu",
+          "Tidak setuju",
+          "Sangat tidak setuju"
+        ],
+        "jawaban": 4
+      },
+      {
+        "pertanyaan": "Anda baru saja mendengar berita duka dari salah seorang warga tempat tinggal Anda; reaksi Anda adalah:",
+        "pilihan": [
+          "nda baru saja mendengar berita duka dari salah seorang warga tempat tinggal Anda; reaksi Anda adalah:",
+          "Langsung ke rumah duka menyatakan rasa berkabung     B : Langsung mengabarkan temanteman anda di sosial media     C : Tidak peduli karena bukan keluarga anda     D : Menyatakan rasa berkabung melalui Handphone atau melakukan siaran langsung agar kabar segera tersebar    Berikut adalah ringkasan dari soalsoal pilihan ganda beserta jawaban yang benar berdasarkan transkrip yang Anda berikan:"
+        ],
+        "jawaban": 1
+      },
+      {
+        "pertanyaan": "Pertanyaan: Anda mendapatkan tawaran melanjutkan studi menggunakan beasiswa, tetapi sebagian biaya harus Anda tanggung sendiri. Sikap Anda adalah:",
+        "pilihan": [
+          "Menolak tawaran tersebut",
+          "Raguragu menerima tawaran tersebut",
+          "Menerima tawaran dan bekerja paruh waktu",
+          "Menerima tawaran tersebut dan meminta sisa biaya pada orangtua",
+          "Menerima tawaran setelah bekerja dua tahun mengumpulkan biaya"
+        ],
+        "jawaban": 2
+      },
+      {
+        "pertanyaan": "Pertanyaan: Anda selalu membuat catatan mengenai kegiatankegiatan penting yang akan anda lakukan dan merencanakannya dengan sangat baik. Sikap Anda adalah:",
+        "pilihan": [
+          "Sangat setuju",
+          "Kurang setuju",
+          "Raguragu",
+          "Tidak setuju",
+          "Sangat tidak setuju"
+        ],
+        "jawaban": 0
+      },
+      {
+        "pertanyaan": "Pertanyaan: Jika tetangga saya sedang ribut yang mengakibatkan kerumunan orang banyak di desa, maka sikap saya adalah:",
+        "pilihan": [
+          "Tidak begitu peduli urusan orang lain",
+          "Saya hanya mengirangira kejadian tetapi tidak ke lokasi kejadian untuk memastikan",
+          "Saya akan marah sendiri karena mereka mengganggu ketenangan desa",
+          "Memastikan kejadian sebenarnya dengan ke tempat lokasi kejadian",
+          "Saya rasa sebentar lagi akan selesai jadi tunggu saja"
+        ],
+        "jawaban": 3
+      },
+      {
+        "pertanyaan": "Pertanyaan: Jika saya bertemu dengan teman lama saya, maka sikap saya adalah: A1: Tidak menyapanya karena takut ia tidak lagi mengenal saya",
+        "pilihan": [
+          "1: Tidak menyapanya karena takut ia tidak lagi mengenal saya",
+          "Saya menyapanya lebih dulu",
+          "Saya hanya senyum sekedarnya dan berlalu pergi",
+          "Menunggu dia menyapa lebih dulu"
+        ],
+        "jawaban": 1
+      },
+      {
+        "pertanyaan": "Pertanyaan: Anda sudah bekerja di tempat kerja baru selama satu bulan, hari ini anda gajian tetapi mendapatkan gaji yang tidak sesuai dengan perjanjian kontrak kerja anda, sikap anda adalah:",
+        "pilihan": [
+          "Terima saja dan pasrah diri",
+          "Mengumpat pimpinan di belakangnya",
+          "Bertanya pada rekan kerja lain untuk memastikan apakah terjadi kesalahan pada bendahara langsung",
+          "Menangis merenungi nasib"
+        ],
+        "jawaban": 2
+      },
+      {
+        "pertanyaan": "Pertanyaan: Anda baru saja mengundurkan diri dari pekerjaan anda dengan gaji sekitar delapan juta rupiah per bulan karena tidak tahan bekerja dibawah tekanan pimpinan perusahaan kasar, kemudian mendaftar sebagai ASN melalui jalur P3K namun sadar bahwa gaji P3K jauh dibawah gaji sebelumnya, sikap anda adalah:",
+        "pilihan": [
+          "Terima saja dan pasrah diri",
+          "Menyesali keputusan mengundurkan diri dari pekerjaan sebelumnya",
+          "Berniat mencari pekerjaan lain dengan gaji lebih tinggi",
+          "Berharap kontrak segera berakhir",
+          "Syukuri keadaan ini dan tetap bekerja dengan baik"
+        ],
+        "jawaban": 4
+      },
+      {
+        "pertanyaan": "Pertanyaan: Kenapa Anda mendaftar P3K?",
+        "pilihan": [
+          "Karena ingin mendapatkan gaji yang lebih besar",
+          "Berhenti jadi guru honorer",
+          "Mengabdi kepada negara dan melayani masyarakat",
+          "Mengikuti tren atau karena orang tua saya dan warga sekitar sangat membanggakan ASN"
+        ],
+        "jawaban": 2
+      },
+      {
+        "pertanyaan": "Pertanyaan: Sikap Anda terhadap Maya, warga baru di kampung yang jarang berkomunikasi dengan warga sekitar adalah:",
+        "pilihan": [
+          "Tidak peduli karena itu urusan pribadi Maya dan temantemannya",
+          "Melaporkan Maya kepada ketua RT agar ketua RT mengajak Maya berbaur dengan warga sekitar",
+          "Melaporkan ke pihak berwajib karena diduga teroris",
+          "Ikut menggosipkan Maya atau berkunjung ke rumah Maya dan menanyakan kebenaran desasdesus dia teroris"
+        ],
+        "jawaban": 1
+      },
+      {
+        "pertanyaan": "Pertanyaan: Apakah motivasi Anda menjadi seorang guru?",
+        "pilihan": [
+          "Saya senang mengajar dan berbagi ilmu",
+          "Karena saya salah jurusan mengambil kejuruan saat kuliah",
+          "Saya mengikuti kata orang tua saya",
+          "Sebenarnya saya ingin jadi polisi atau karena kepala sekolah menawarkan saya menjadi guru"
+        ],
+        "jawaban": 0
+      },
+      {
+        "pertanyaan": "Pertanyaan: Sikap Anda jika tidak sengaja melewati kerumunan yang sedang membicarakan aksi bom bunuh diri adalah:",
+        "pilihan": [
+          "Tidak peduli mungkin itu hanya bercanda",
+          "Menegur mereka dan menyuruh mereka bubar",
+          "Mengikuti mereka dan merekam aksi mereka",
+          "Melaporkan mereka ke pihak berwajib agar segera ditangani"
+        ],
+        "jawaban": 3
+      },
+      {
+        "pertanyaan": "Pertanyaan: Jika anda termasuk orang yang pelupa, maka:",
+        "pilihan": [
+          "Saya meminta orangtua untuk mengingatkan saya",
+          "Biarkan begitu saja nanti pasti akan ingat kalau sudah deadline",
+          "Saya akan membuat not dan menyalakan alarm untuk mengingatkan",
+          "Saya akan mengerjakan pekerjaan yang bisa seingat terlebih dahulu",
+          "Saya minta orang terdekat untuk membuat not"
+        ],
+        "jawaban": 2
+      },
+      {
+        "pertanyaan": "Suatu hari anda menerima paket online dari kurir. Setelah anda buka, isinya tidak sesuai dengan pesanan Anda. Isinya lebih mahal dan lebih bagus dari pesanan Anda. Sesuai peraturannya, jika dikembalikan maka pembeli menanggung ongkos kirim. Tindakan Anda adalah:",
+        "pilihan": [
+          "Menerima saja sebab harus ongkir jika dikembalikan",
+          "Mungkin ini bonus dari pemilik toko",
+          "Konfirmasi ke pihak penjual untuk solusi terbaik (Jawaban Benar)",
+          "Mengembalikan langsung sebab bukan milik saya"
+        ],
+        "jawaban": 1
+      },
+      {
+        "pertanyaan": "Anda sedang dilanda sebuah masalah yang rumit dan membutuhkan uang. Saat jalanjalan sambil memikirkan solusi masalah anda, anda menemukan sebuah tas di pinggir jalan tidak ada orang di sekitar lokasi tersebut. Tindakan Anda adalah:",
+        "pilihan": [
+          "nda sedang dilanda sebuah masalah yang rumit dan membutuhkan uang. Saat jalanjalan sambil memikirkan solusi masalah anda, anda menemukan sebuah tas di pinggir jalan tidak ada orang di sekitar lokasi tersebut. Tindakan Anda adalah:",
+          "Langsung membawa pulang dan melakukan pengecekan di rumah",
+          "Menunggu pemiliknya sebab Ia mungkin kembali",
+          "Membuka tas tersebut untuk mencari identitas pemiliknya (Jawaban Benar)",
+          "Mengembalikan tas tersebut"
+        ],
+        "jawaban": 1
+      },
+      {
+        "pertanyaan": "Anda adalah seorang pegawai di sebuah perusahaan. Suatu hari pimpinan menawarkan anda untuk melaksanakan tugas di luar kota, sementara pasangan anda sedang sakit dan dirawat di UGD tanpa ada yang menemani. Tindakan Anda adalah:",
+        "pilihan": [
+          "nda adalah seorang pegawai di sebuah perusahaan. Suatu hari pimpinan menawarkan anda untuk melaksanakan tugas di luar kota, sementara pasangan anda sedang sakit dan dirawat di UGD tanpa ada yang menemani. Tindakan Anda adalah:",
+          "Menolak tawaran tersebut demi pasangan saya (Jawaban Benar)",
+          "Menerima tawaran tersebut Sebab saya karyawan teladan",
+          "Berkomunikasi dengan pasangan saya mungkin ia akan mengizinkan",
+          "Menolak tawaran tersebut dan memberitahukan keadaan saya kepada atasan"
+        ],
+        "jawaban": 1
+      },
+      {
+        "pertanyaan": "Anda bekerja di dinas kebersihan sebagai petugas operasional kebersihan saat pulang kerja melihat sekelompok Pemuda membuang sampah tidak pada tempatnya padahal tempat sampah sudah disediakan. Tindakan Anda adalah:",
+        "pilihan": [
+          "nda bekerja di dinas kebersihan sebagai petugas operasional kebersihan saat pulang kerja melihat sekelompok Pemuda membuang sampah tidak pada tempatnya padahal tempat sampah sudah disediakan. Tindakan Anda adalah:",
+          "Memungut sampah tersebut sebab itu memang tugas saya",
+          "Meminta mereka memungut sampah dan menunjukkan tempat sampah (Jawaban Benar)",
+          "Memotret perbuatan mereka dijadikan perbincangan di grup dinas kebersihan",
+          "Diam saja sebab ini di luar jam kerja saya"
+        ],
+        "jawaban": 1
+      },
+      {
+        "pertanyaan": "Anda sedang menunggu pasangan dalam mobil tibatiba seseorang mendekat menggunakan kaca mobil untuk berdandan mengambil foto selfie tindakan Anda:",
+        "pilihan": [
+          "nda sedang menunggu pasangan dalam mobil tibatiba seseorang mendekat menggunakan kaca mobil untuk berdandan mengambil foto selfie tindakan Anda:",
+          ") Saya akan membiarkannya (Jawaban Benar)",
+          ") Saya akan membuka kaca mobil agar ia tahu bahwa saya ada didalam.",
+          ") Saya akan mengambil videonya.",
+          ") Saya akan menegurnya setelah selesai."
+        ],
+        "jawaban": 1
+      },
+      {
+        "pertanyaan": "Anda bekerja di sebuah fasilitas pelayanan. Anda salah melakukan input beberapa data diakibatkan kelelahan dan kelalaian. Hari ini terjadi keributan akibat kesalahan tersebut.",
+        "pilihan": [
+          "nda bekerja di sebuah fasilitas pelayanan. Anda salah melakukan input beberapa data diakibatkan kelelahan dan kelalaian. Hari ini terjadi keributan akibat kesalahan tersebut.",
+          "Saya meminta pelanggan kembali lagi besok untuk memperbaiki data mereka sesuai aturan.",
+          "Saya mengakui kesalahan saya dan segera memperbaiki data tersebut. (Jawaban Benar)",
+          "Saya minta maaf dan berjanji memperbaiki data sebisa saya.",
+          "Saya selalu bekerja dengan maksimal dan tidak mungkin melakukan kesalahan."
+        ],
+        "jawaban": 1
+      },
+      {
+        "pertanyaan": "Anda adalah orang kepercayaan di perusahaan A. Suatu hari sahabat lama meminta bertemu, ternyata ia bekerja di perusahaan B yang merupakan saingan perusahaan A. Ia menanyakan beberapa hal terkait perusahaan A.",
+        "pilihan": [
+          "nda adalah orang kepercayaan di perusahaan A. Suatu hari sahabat lama meminta bertemu, ternyata ia bekerja di perusahaan B yang merupakan saingan perusahaan A. Ia menanyakan beberapa hal terkait perusahaan A.",
+          "Saya senang membantu orang lain untuk maju.",
+          "Saya memberitahukan jika dia berjanji untuk tidak membocorkan.",
+          "Saya ragu tentang komitmennya.",
+          "Saya menjaga rahasia perusahaan. (Jawaban Benar)"
+        ],
+        "jawaban": 1
+      },
+      {
+        "pertanyaan": "Anda diminta untuk meriview jurnal yang sedang dilombakan, salah satunya adalah orang yang sangat berjasa bagi keluarga Anda.",
+        "pilihan": [
+          "nda diminta untuk meriview jurnal yang sedang dilombakan, salah satunya adalah orang yang sangat berjasa bagi keluarga Anda.",
+          "Saya memberikan nilai maksimal namun tetap melihat jurnalnya.",
+          "Saya menolak tawaran tersebut sebab takut tidak bisa objektif.",
+          "Saya memberikan nilai secara objektif tanpa melebihlebihkan. (Jawaban Benar)",
+          "Saya memberikan nilai dengan adil pada semua peserta yang tidak saya kenal."
+        ],
+        "jawaban": 1
+      },
+      {
+        "pertanyaan": "Nila adalah karyawan yang rajin, ia selalu menunggu angkutan umum lebih awal dari karyawan pada umumnya suatu hari saat sedang menunggu seseorang datang menyapanya, penampilan orang tersebut terlihat kasar seperti preman.",
+        "pilihan": [
+          "Pergi dari tempat tersebut agar ia selamat.",
+          "Membalas sapaannya dan tetap waspada. (Jawaban Benar)",
+          "Meminta pertolongan orang di sekitarnya.",
+          "Berusaha akrab agar tidak terjadi keributan."
+        ],
+        "jawaban": 1
+      },
+      {
+        "pertanyaan": "Atasan meminta Anda datang untuk menyelesaikan kerja sama proyek dengan klien penting saat itu anda sedang menjenguk salah satu keluarga anda yang sedang sakit:",
+        "pilihan": [
+          "tasan meminta Anda datang untuk menyelesaikan kerja sama proyek dengan klien penting saat itu anda sedang menjenguk salah satu keluarga anda yang sedang sakit:",
+          "Berjanji datang setelah selesai menjenguk keluarga saya .(Jawaban Benar)   B ) Mengharapkan atasan mengerti bahwa saya sedang ada acara keluarga .   C ) Segera menyelesaikan kerja sama proyek .   D ) Meminta orang lain untuk menjaga keluarga saya ."
+        ],
+        "jawaban": 1
+      },
+      {
+        "pertanyaan": "Anda adalah ketua tim penerimaan karyawan baru di perusahaan dalam memilih karyawan baru anda mengutamakan karyawan: A ) Sesuai dengan visi misi perusahaan . B ) Profesional dalam bekerja . C ) Memiliki integritas .",
+        "pilihan": [
+          "nda adalah ketua tim penerimaan karyawan baru di perusahaan dalam memilih karyawan baru anda mengutamakan karyawan:  A ) Sesuai dengan visi misi perusahaan .   B ) Profesional dalam bekerja .   C ) Memiliki integritas .",
+          "Mempunyai kejujuran tinggi .(Jawaban Benar)"
+        ],
+        "jawaban": 1
+      },
+      {
+        "pertanyaan": "Anda bekerja sebagai customer service di sebuah perusahaan pekerjaan Anda memang membutuhkan waktu cukup lama dalam melayani masingmasing pelanggan waktu istirahat makan siang sudah tiba tetapi anda belum menyelesaikan proses pelayanan seorang pelanggan:",
+        "pilihan": [
+          "nda bekerja sebagai customer service di sebuah perusahaan pekerjaan Anda memang membutuhkan waktu cukup lama dalam melayani masingmasing pelanggan waktu istirahat makan siang sudah tiba tetapi anda belum menyelesaikan proses pelayanan seorang pelanggan:",
+          "Segera menyelesaikan sebisa saya . B ) Memintanya kembali setelah jam istirahat berakhir .",
+          "Menyelesaikan proses pelayanan sebelum istirahat .(Jawaban Benar) D ) Istirahat kemudian menyelesaikan proses pelayanan ."
+        ],
+        "jawaban": 1
+      },
+      {
+        "pertanyaan": "Anda melihat ibu hamil berdiri di angkutan umum:",
+        "pilihan": [
+          "nda melihat ibu hamil berdiri di angkutan umum:",
+          "Menawarkan kursi kepada ibu hamil itu .(Jawaban Benar) B ) Meminta anak muda untuk memberikan kursi mereka . C ) Memperhatikan penumpang lain mendapatkan kursi . D ) Tidak melakukan tindakan apapun mungkin ia ingin olahraga ."
+        ],
+        "jawaban": 1
+      },
+      {
+        "pertanyaan": "Pertanyaan: Anda suka sekali dengan merk mie mix dan harganya murah. Suatu ketika mie tersebut langka di pasaran dan harganya mahal. Apa yang akan Anda lakukan?",
+        "pilihan": [
+          "Tetap membeli dan mencari mie tersebut karena favorit anda.",
+          "Sesekali membeli ketika ada uang lebih.",
+          "Mencari mie dengan kualitas dan rasa yang hampir sama tetapi harganya murah.",
+          "Mencari mie yang berbeda dan murah."
+        ],
+        "jawaban": 1
+      },
+      {
+        "pertanyaan": "Pertanyaan: Anda berada di tempat kerja dengan banyak pegawai senior. Ketika melakukan rapat, pegawai senior selalu meminta pendapatnya diutamakan. Bagaimana pendapat anda?",
+        "pilihan": [
+          "Tidak menghiraukan pegawai senior.",
+          "Tetap membuat keputusan sambil mendengarkan pendapat senior.",
+          "Hanya mendengarkan pendapat senior tanpa mengambil keputusan.",
+          "Melaksanakan pendapat senior karena anda lebih junior."
+        ],
+        "jawaban": 1
+      },
+      {
+        "pertanyaan": "Pertanyaan: Suatu saat atasan Anda meminta untuk merekap datadata para pegawai dengan deadline 5 hari kemudian, tetapi komputer sedang rusak. Apa yang akan Anda lakukan?",
+        "pilihan": [
+          "Segera merekap secara manual semua data pegawai dan langsung mengirimnya.",
+          "Menghubungi tim IT untuk menyelesaikannya.",
+          "Bilang kepada atasan bahwa sistem sedang rusak itu bukan tanggung jawab dia.",
+          "Meminta perpanjangan deadline kepada atasan."
+        ],
+        "jawaban": 1
+      },
+      {
+        "pertanyaan": "Pertanyaan: Akibat pandemi COVID, pekerjaan bisa dilakukan WFH (work from home). Namun banyak yang mengeluh karena harus melaksanakan tugas rumah seperti memasak, mencuci, dll. Bagaimana menurut anda?",
+        "pilihan": [
+          "Tetap fokus pada pekerjaan meski WFH atau tidak.",
+          "Menerima perubahan tersebut dan beradaptasi seperti rekan kerja lain.",
+          "Menolak WFH ini apalagi menolak kebijakan baik dari kantor.",
+          "WFH merupakan sarana untuk menundanunda pekerjaan."
+        ],
+        "jawaban": 0
+      },
+      {
+        "pertanyaan": "Anda sedang berkunjung ke suatu taman wisata. Di sana disediakan kamar mandi umum dan tempat berwudu. Di dalam kamar mandi bertuliskan peraturan \"harap lepas alas kaki\". Saat Anda melihat beberapa remaja dengan santai masuk ke kamar mandi dengan membawa alas kaki, tindakanmu adalah:",
+        "pilihan": [
+          "nda sedang berkunjung ke suatu taman wisata. Di sana disediakan kamar mandi umum dan tempat berwudu. Di dalam kamar mandi bertuliskan peraturan \"harap lepas alas kaki\". Saat Anda melihat beberapa remaja dengan santai masuk ke kamar mandi dengan membawa alas kaki, tindakanmu adalah:",
+          "Saya meminta mereka untuk memahami aturan di tempat wisata agar terjaga kebersihannya.",
+          "Saya menyindir mereka agar menjadi remaja yang baik mematuhi aturan yang berlaku.",
+          "Saya meminta mereka membaca dengan benar aturan yang sudah diterapkan.",
+          "Saya mengingatkan mereka untuk melepas alas kakinya sebelum masuk kamar mandi."
+        ],
+        "jawaban": 3
+      },
+      {
+        "pertanyaan": "Anda bekerja sudah 10 tahun lamanya di perusahaan X. Setiap selukbeluk perusahaan hampir semuanya Anda ketahui, para petinggi sudah mengenal Anda sebab loyalitas. Suatu hari seorang teman lama menghubungi Anda untuk mengajak kerja sama pada perusahaannya yang baru, ia mengetahui bahwa Anda orang yang kompeten. Tindakan Anda adalah:",
+        "pilihan": [
+          "nda bekerja sudah 10 tahun lamanya di perusahaan X. Setiap selukbeluk perusahaan hampir semuanya Anda ketahui, para petinggi sudah mengenal Anda sebab loyalitas. Suatu hari seorang teman lama menghubungi Anda untuk mengajak kerja sama pada perusahaannya yang baru, ia mengetahui bahwa Anda orang yang kompeten. Tindakan Anda adalah:",
+          "Menolak ajakannya dan tetap pada perusahaan X.",
+          "Memikirkan ajakannya apakah menguntungkan atau tidak.",
+          "Menerima ajakannya jika ia menjanjikan komisi yang lebih besar daripada gaji saya saat ini.",
+          "Mengerjakan kedua pekerjaan tersebut meski waktunya bersamaan sebab saya yakin bisa multitalenta."
+        ],
+        "jawaban": 0
+      },
+      {
+        "pertanyaan": "Kamu diterima bekerja sebagai salah seorang admin online di sebuah perusahaan tersebut memiliki beberapa produk yang harus dijelaskan pada pelanggan suatu hari seorang calon pelanggan menanyakan beberapa hal yang sudah tertera jelas di poster Kamu sudah mengirimkan poster sebelumnya tindakanmu adalah:",
+        "pilihan": [
+          "Saya memintanya untuk melihat poster secara detail untuk menghemat waktu.",
+          "Saya memberitahukan kembali secara tertulis terkait pertanyaannya.",
+          "Saya hanya menjawab pertanyaan yang tidak ada di poster.",
+          "Saya menanyakan apakah ia sudah membaca poster atau tidak."
+        ],
+        "jawaban": 1
+      },
+      {
+        "pertanyaan": "Suatu hari kamu melihat seorang nenek menabrak balita, hal itu tentu tidak disengaja disebabkan balita tersebut tibatiba menyeberang jalan nenek tersebut mengalami luka ringan dan menangis tak henti sedangkan balita langsung dilarikan ke UGD untuk mendapatkan perawatan kamu diminta menjadi saksi atas kasus ini sebab hanya kamu saja yang melihat kejadian secara langsung di TKP:",
+        "pilihan": [
+          "Saya membantu nenek agar tidak dikenai hukuman berat sebab hal ini tidak disengaja",
+          "Saya jujur bahwa nenek tersebut tidak bersalah",
+          "Saya memahami apa yg dirasakan nenek dan keluarga balita",
+          "Saya mengatakan sesuai dengan apa yg saya lihat"
+        ],
+        "jawaban": 3
+      },
+      {
+        "pertanyaan": "Teman lama mengajak anda bergabung pada acara peresmian perusahaannya, perusahaan tersebut bergerak dibidang kecantikan waktu peresmian bersamaan dengan jadwal kerja anda anda sangat senang dengan perkembangannya tindakan anda adalah:",
+        "pilihan": [
+          "Saya mengutus seseorang untuk datang ke acara peresmian menggantikan saya",
+          "Saya mengirim hadiah kecil untuknya sebagai tanda dukungan",
+          "Saya mengucapkan selamat dilain hari",
+          "Saya izin tidak masuk kerja selama satu jam saja",
+          "pa yang akan Anda lakukan ketika anda melakukan sebuah kesalahan fatal di kantor?",
+          "Saya akan mencari sumber kesalahan tersebut.",
+          "Sedapat mungkin mempertahankan dengan argumentasi karena saya yakin pekerjaan saya selalu benar.",
+          "Saya seorang perfeksionis tidak pernah melakukan kesalahan.",
+          "Saya akan bertanggung jawab sepenuhnya dengan melakukan perbaikan. (Jawaban Benar)"
+        ],
+        "jawaban": 0
+      },
+      {
+        "pertanyaan": "Jika Anda diterima menjadi P3K, berapa lama anda bekerja pada instansi ini?",
+        "pilihan": [
+          "Saya akan bekerja secara maksimal sampai kontrak saya habis.",
+          "Saya ingin berkontribusi memberikan kesuksesan jangka panjang di instansi ini. (Jawaban Benar)",
+          "Karena status saya sebagai P3K, saya hanya ingin memenuhi kontrak kerja saja.",
+          "Saya akan menyerahkan sepenuhnya kepada kebijakan instansi."
+        ],
+        "jawaban": 1
+      },
+      {
+        "pertanyaan": "Jika gaji yang diberikan tidak sesuai dengan yang anda bayangkan, bagaimana reaksi Anda?",
+        "pilihan": [
+          "Menerima dengan ikhlas sesuai ketentuan yang berlaku karena bekerja sebagai ASN adalah sebuah pengabdian (Jawaban Benar)",
+          "Tidak masalah, nanti bisa mencari penghasilan tambahan dengan berjualan online memanfaatkan fasilitas internet di kantor.",
+          "Mau tidak mau menerima saja.",
+          "Menerima saja dengan tetap mempelajari peluang kerja di tempat lain yang lebih menjanjikan."
+        ],
+        "jawaban": 1
+      },
+      {
+        "pertanyaan": "Apakah anda sebagai guru PPPK sudah terbiasa bekerja secara berkelompok?",
+        "pilihan": [
+          "Saya terbiasa bekerja dengan guru yang sudah saya kenal baik",
+          "Saya terbiasa bekerja secara kelompok pada saat menghadapi pekerjaan yang berat",
+          "Saya dapat bekerja secara individu dan kelompok dalam berbagai situasi (Jawaban Benar)"
+        ],
+        "jawaban": 1
+      },
+      {
+        "pertanyaan": "Seandainya Anda menerima sebuah tugas yang tidak sesuai dengan prinsip Anda, apa tindakan Anda?",
+        "pilihan": [
+          "Mengungkapkan dan mendiskusikan pikiran dan perasaan dengan pemimpin (Jawaban Benar)",
+          "Memendam perasaan negatif agar tidak mengganggu pelaksanaan tugas",
+          "Mengalihkan perasaan pikiran dan perhatian pada hal lain",
+          "Mengungkapkan pikiran dan perasaan pada orang terdekat"
+        ],
+        "jawaban": 1
+      },
+      {
+        "pertanyaan": "Apa tindakan Anda jika suatu saat merasa bosan dengan tugas anda sebagai tenaga PPPK?",
+        "pilihan": [
+          "Resign dan mencari kehidupan yang lebih baik",
+          "Meminta kepada atasan untuk dipindahkan ke bidang lain",
+          "Mencari langkahlangkah efisien agar pekerjaan cepat selesai",
+          "Pastikan ahli dalam pekerjaan tersebut sehingga tidak jenuh    68: Jika diterima sebagai tenaga ASN PPPK, apakah anda siap ditempatkan di mana saja tanpa mengajukan permohonan mutasi?      A :Saya akan mengabdi beberapa tahun sesuai penetapan kemudian mengajukan pindah ke daerah asal      B :Ya, saya siap (Jawaban Benar)      C :Saya akan berusaha memperoleh penempatan sesuai domisili saya      D :Saya akan melihat dulu dimana penempatan baru memutuskan mengambil kesempatan ini atau tidak"
+        ],
+        "jawaban": 1
+      },
+      {
+        "pertanyaan": "Jika atasan menyuruh anda untuk melakukan suatu tugas kerja yang berat dan menuntut kemampuan tinggi, sikap Anda adalah:",
+        "pilihan": [
+          "Mengerjakan tugas sedikit demi sedikit hingga selesai meskipun memakan lebih banyak waktu",
+          "Mencari cara untuk menyelesaikan tugas tersebut secepat mungkin agar selesai tepat waktu",
+          "Bekerja dengan terjadwal dan terorganisir sehingga kemajuan penyelesaian tugas selalu terpantau (Jawaban Benar)",
+          "Meminta bantuan rekan lain yang lebih mengerti cara menyelesaikan tugas tersebut",
+          "Memberikan tugas tersebut pada rekan yang lebih senior karena tugas tersebut sangat penting untuk selesai tepat waktu"
+        ],
+        "jawaban": 1
+      },
+      {
+        "pertanyaan": "Menurut anda keberhasilan Anda dalam mengatasi setiap kendala dalam pekerjaan disebabkan oleh:",
+        "pilihan": [
+          "Saya tidak pernah berputus asa untuk menyelesaikan setiap tugas yang diberikan (Jawaban Benar)",
+          "Saya berani mencoba halhal baru meskipun beresiko tinggi",
+          "Saya selalu berusaha bekerja di zona yang nyaman dan sesuai kemampuan saya",
+          "Saya selalu beruntung dalam hal pekerjaan dan karir",
+          "Saya sering mendapatkan bantuan dari rekan lain dalam pekerjaan saya"
+        ],
+        "jawaban": 1
+      },
+      {
+        "pertanyaan": "Menurut anda alasan utama yang menyebabkan seseorang kehilangan kesempatan untuk maju dan berkembang adalah:",
+        "pilihan": [
+          "Ketakutan pada apa yang mungkin terjadi di masa depan (Jawaban Benar)",
+          "Menundanunda suatu pekerjaan",
+          "Memiliki lebih dari satu tujuan dalam bekerja",
+          "Lebih suka bekerja dengan cara lama dan situasi yang dikenal",
+          "Menunggu bantuan dan kesempatan yang muncul dari pihak lain"
+        ],
+        "jawaban": 1
+      },
+      {
+        "pertanyaan": "Jika anda dihadapkan pada suatu permasalahan yang memerlukan konsentrasi tinggi, biasanya anda akan:",
+        "pilihan": [
+          "Mudah teralihkan jika gangguan tersebut terus muncul dan menyukai mengerjakan hal lain sebelum kembali fokus bekerja",
+          "Sulit teralihkan pada hal lain jika masalah yang dihadapi belum mendapatkan solusinya (Jawaban Benar)",
+          "Mudah teralihkan pada gangguan yang muncul meskipun hanya sedikit saja",
+          "Masih tetap fokus pada masalah yang dikerjakan jika gangguan tidak signifikan",
+          "Mudah menyerah jika masalah terlalu sulit diselesaikan"
+        ],
+        "jawaban": 1
+      },
+      {
+        "pertanyaan": "Jika anda melakukan suatu pelanggaran tanpa diketahui orang lain, biasanya apa yg Anda rasakan?",
+        "pilihan": [
+          "Tidak memikirkannya terlalu dalam agar tidak berpengaruh pada pekerjaan saya",
+          "Merasa tenang saja karena pelanggaran mungkin tidak terlalu besar",
+          "Merasa bersalah dan melakukan refleksi pada diri saya (Jawaban Benar)",
+          "Merasa malu dan berusaha menyembunyikannya dari rekanrekan lainnya",
+          "Merasa takut sepanjang waktu sehingga ingin menjauh dari rekanrekan"
+        ],
+        "jawaban": 1
+      },
+      {
+        "pertanyaan": "Menurut Anda apa yg akan terjadi setelah 10 tahun menjadi ASN?",
+        "pilihan": [
+          "Masih menjadi pelaksana di unit kerja saat ini",
+          "Sudah bekerja di bidang lain yg diminati",
+          "Menjadi tenaga ahli atau pejabat struktural di unit kerja saya (Jawaban Benar)",
+          "Menjadi pelaksana di unit kerja lain yg diminati          E : Tidak dapat membayangkan karena masa depan sulit diprediksi"
+        ],
+        "jawaban": 1
+      },
+      {
+        "pertanyaan": "Apa motivasi terbesar menjadi ASN PK?",
+        "pilihan": [
+          "pa motivasi terbesar menjadi ASN PK?",
+          "Harapan citacita orang tua sejak kecil",
+          "Mengembangkan kualitas diri jadi ASN profesional (Jawaban Benar)",
+          "ASN dikenal reputasi profesional relasi luas",
+          "Ingin tempat membangun karir",
+          "Jadi ASN pencapaian terbesar meninggalkan zona nyaman sebelumnya"
+        ],
+        "jawaban": 1
+      },
+      {
+        "pertanyaan": "Perusahaan tempat Anda bekerja merupakan perusahaan bisnis global dinamis cepat berubah respon terhadap perubahan?",
+        "pilihan": [
+          "Merasa biasa saja perubahan dunia bisnis lumrah",
+          "Perusahaan seharusnya mampu jadi Learning Organization (Jawaban Benar)",
+          "Pegawai tak perlu ikut campur perubahan internal",
+          "Sebisa mungkin menjaga stabilitas perusahaan",
+          "Setiap orang sebaiknya tak terburuburu adaptasi perubahan"
+        ],
+        "jawaban": 1
+      },
+      {
+        "pertanyaan": "Soal 81 Situasi: Menemukan seekor kucing yang mengeluarkan bau tidak sedap. Pilihan:",
+        "pilihan": [
+          "Menyerahkannya pada tetangga",
+          "Membawanya ke dokter hewan (Jawaban Benar)",
+          "Meminta pemiliknya untuk merawatnya",
+          "Meminta seseorang yang senang kucing untuk menolongnya"
+        ],
+        "jawaban": 1
+      },
+      {
+        "pertanyaan": "Situasi: Pekerja di kosan dengan masalah, kontrakan akan berakhir. Pilihan:",
+        "pilihan": [
+          "Pindah ke rumah baru",
+          "Meminta nomor telepon pemilik rumah",
+          "Merasa lelah untuk mengangkut barang",
+          "Tetap di kosan lama (Jawaban Benar)"
+        ],
+        "jawaban": 1
+      },
+      {
+        "pertanyaan": ": Situasi: Menghadapi dua alternatif dalam memilih tempat tinggal. Pilihan:",
+        "pilihan": [
+          "Saya akan pindah karena masa kontrak kosan telah berakhir (Tidak Tepat)",
+          "Saya meminta nomor telepon pemilik rumah (Tidak Tepat)",
+          "Saya merasa lelah untuk mengangkut barang (Tidak Tepat)",
+          "Saya tetap di kosan lama karena fasilitasnya sama dan pemilik bersedia membantu (Jawaban Benar)"
+        ],
+        "jawaban": 1
+      },
+      {
+        "pertanyaan": ": – Situasi: Menghadapi komentar negatif dari temanteman tentang penampilan. – Pilihan:",
+        "pilihan": [
+          "Mengajak mereka ke rumah (Tidak Tepat)",
+          "Hanya tersenyum mendengar komentar mereka (Tidak Tepat)",
+          "Terlihat menyedihkan sebab tidak menjadi lebih baik (Tidak Tepat)",
+          "Memaklumi perkataan mereka dan menjelaskan saya masih fokus mengurus anakanak saya (Jawaban Benar)"
+        ],
+        "jawaban": 1
+      },
+      {
+        "pertanyaan": "– Situasi: Berhutang pada sahabat dan diminta melunasinya. – Pilihan:",
+        "pilihan": [
+          "Saya meminjam pada orang lain agar dapat melunasi hutang ini (Jawaban Benar)",
+          "Saya meminta waktu untuk melunasi hutang ini",
+          "Saya memberikan usaha saya untuk dikelola sebagai gantinya",
+          "Saya mengganti sebagian terlebih dahulu dan meminta waktu untuk sisanya   .Soal 87       – Situasi: Merasa dirundung oleh atasan karena tugas berat.     – Pilihan:          A )Saya akan mengundurkan diri dan mencari tempat kerja baru (Tidak Tepat)           B )Saya siap menerima pekerjaan dari atasan walau harus lembur (Jawaban Benar)           C )Siap menerima pekerjaan utama sebagai karyawan              D )Melaporkannya ke pihak berwajib atas penindasan"
+        ],
+        "jawaban": 1
+      },
+      {
+        "pertanyaan": "Pertanyaan: Atasan Anda menetapkan target tugas harus selesai pada deadline tanggal 27 bulan ini. Maka:",
+        "pilihan": [
+          "Saya akan selesaikan tepat pada tanggal 27.",
+          "Kalau tugas lain menumpuk, saya akan minta izin untuk menyelesaikan barang satu atau dua hari sesudah deadline.",
+          "Saya mencoba menyelesaikan tanggal 26 jika memungkinkan.",
+          "Saya menegosiasikan deadline yang ditetapkan atasan tersebut dengan baikbaik agar tidak terlalu memberatkan."
+        ],
+        "jawaban": 2
+      },
+      {
+        "pertanyaan": "Pertanyaan: Bagi saya untuk menjadi ASN yang sukses, saya harus melakukan:",
+        "pilihan": [
+          "Mengikuti perintah dan arahan pimpinan secara loyal dan penuh kepatuhan.",
+          "Melakukan pekerjaan yang terbaik dengan standar kinerja yang tinggi.",
+          "Mengembangkan halhal baru yang belum pernah diciptakan sebelumnya.",
+          "Menciptakan hubungan baik dengan setiap orang rekan kerja dan pimpinan."
+        ],
+        "jawaban": 1
+      },
+      {
+        "pertanyaan": "Pertanyaan: Kantor Anda mengadakan training bermanfaat bagi peningkatan kemampuan Anda, namun training tersebut diadakan pada hari Sabtu dan Minggu:",
+        "pilihan": [
+          "Lebih baik saya mengikuti training yang diadakan bukan pada hari libur saja.",
+          "Hari libur Sabtu dan Minggu adalah hak pegawai untuk libur dari urusan pekerjaan dan halhal berhubungan dengannya.",
+          "Saya bersedia mengorbankan dua hari libur tersebut untuk mengikuti training.",
+          "Saya bersedia mengikuti training namun hanya hari Sabtu saja."
+        ],
+        "jawaban": 2
+      },
+      {
+        "pertanyaan": "Pertanyaan: Ketika di kantor tibatiba ingin memprint tiga lembar datadata pribadi kita yang tidak ada hubungannya dengan pekerjaan:",
+        "pilihan": [
+          "Maka saya langsung saja memprintnya di kantor",
+          "Saya memprint di kantor namun memakai kertas sendiri",
+          "Saya memprint di rumah saja memakai printer sendiri",
+          "Saya memprint di kantor pada saat printer itu tidak dipakai"
+        ],
+        "jawaban": 2
+      }
   ]
 }
