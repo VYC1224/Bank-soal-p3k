@@ -1,4 +1,4 @@
-<!-- index.html (dengan notifikasi waktu habis + auto scroll) -->
+<!-- index.html FINAL: kuis lengkap + musik playlist + sticky player -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -6,6 +6,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kuis P3K untuk kekasihku</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    #musicPlayer {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #f8f9fa;
+      padding: 10px 12px;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+    #musicPlayer button {
+      margin: 0 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -33,16 +51,38 @@
     <div id="result"></div>
   </div>
 
+  <!-- Musik Mini Player -->
+  <div id="musicPlayer">
+    <button id="prevTrack">⏮️</button>
+    <button id="togglePlay">⏯️</button>
+    <button id="nextTrack">⏭️</button>
+  </div>
+  <audio id="musikAudio" src="musik.mp3" preload="auto"></audio>
+
   <script>
-    let soalData = []
-    let soalAcak = []
-    let soalDitampilkan = 0
-    let soalMax = 0
-    let jawabanPengguna = {}
-    let semuaSoal = []
-    let timerInterval
-    let waktuSisa = 0
-    let kategoriDipilih = ''
+    const playlist = ["musik.mp3", "musik2.mp3"]
+    let trackIndex = 0
+    const audio = document.getElementById("musikAudio")
+    const playBtn = document.getElementById("togglePlay")
+
+    document.getElementById("prevTrack").onclick = () => {
+      trackIndex = (trackIndex - 1 + playlist.length) % playlist.length
+      audio.src = playlist[trackIndex]
+      audio.play()
+    }
+    document.getElementById("nextTrack").onclick = () => {
+      trackIndex = (trackIndex + 1) % playlist.length
+      audio.src = playlist[trackIndex]
+      audio.play()
+    }
+    playBtn.onclick = () => {
+      if (audio.paused) audio.play()
+      else audio.pause()
+    }
+
+    let soalData = [], soalAcak = [], soalDitampilkan = 0, soalMax = 0
+    let jawabanPengguna = {}, semuaSoal = []
+    let timerInterval, waktuSisa = 0, kategoriDipilih = ''
 
     function mulaiTimer() {
       const timerDiv = document.getElementById('timer')
@@ -70,11 +110,8 @@
         const soal = soalAcak[i]
         const div = document.createElement('div')
         div.classList.add('soal')
-        div.innerHTML = `
-          <h4>${i + 1}. ${soal.pertanyaan}</h4>
-          ${soal.pilihan.map((p, idx) => `
-            <label><input type="radio" name="soal_${i}" value="${idx}"> ${p}</label><br>`).join('')}
-        `
+        div.innerHTML = `<h4>${i + 1}. ${soal.pertanyaan}</h4>
+          ${soal.pilihan.map((p, idx) => `<label><input type="radio" name="soal_${i}" value="${idx}"> ${p}</label><br>`).join('')}`
         container.appendChild(div)
       }
 
@@ -96,10 +133,8 @@
     function periksaJawaban() {
       clearInterval(timerInterval)
       document.getElementById('timer').textContent = ''
-
       const result = document.getElementById('result')
       result.innerHTML = '<h3>Hasil:</h3>'
-
       let benar = 0
       const hasilDetail = []
 
@@ -113,19 +148,16 @@
           }
         }
         jawabanPengguna[i] = jawaban
-
         const benarJawab = jawaban === soal.jawaban
         if (benarJawab) benar++
         else {
           const div = document.createElement('div')
           div.classList.add('salah')
-          div.innerHTML = `
-            <strong>Soal ${i + 1}:</strong> ${soal.pertanyaan}<br>
+          div.innerHTML = `<strong>Soal ${i + 1}:</strong> ${soal.pertanyaan}<br>
             Jawaban Anda: ${soal.pilihan[jawaban] || 'Tidak Dijawab'}<br>
             Jawaban Benar: ${soal.pilihan[soal.jawaban]}`
           result.appendChild(div)
         }
-
         hasilDetail.push({
           pertanyaan: soal.pertanyaan,
           jawaban_pengguna: soal.pilihan[jawaban] || null,
@@ -137,10 +169,9 @@
       const skor = Math.round((benar / soalMax) * 100)
       const skorText = document.createElement('div')
       skorText.innerHTML = `<h4>Nilaita: ${skor}%</h4>`
-
-      if (skor < 80) skorText.innerHTML += `<p>Yuk belajar lebih giat lagi ya sayangkuu ❤️</p>`
-      else if (skor > 90) skorText.innerHTML += `<p>Wah hebat sayangku! Bangga dan makin sayang 🥰</p>`
-      else skorText.innerHTML += `<p>Nice sayang, tetap semangat ya cintaku ✨</p>`
+      skorText.innerHTML += skor < 80 ? `<p>Yuk belajar lebih giat lagi ya sayangkuu ❤️</p>`
+        : skor > 90 ? `<p>Wah hebat sayangku! Bangga dan makin sayang 🥰</p>`
+        : `<p>Nice sayang, tetap semangat ya cintaku ✨</p>`
 
       const unduhBtn = document.createElement('button')
       unduhBtn.textContent = 'Unduh Hasil Kuis'
@@ -205,8 +236,7 @@
       soalList.forEach((soal, i) => {
         const div = document.createElement('div')
         div.classList.add('soal')
-        div.innerHTML = `
-          <strong>${i + 1}. ${soal.pertanyaan}</strong><br>
+        div.innerHTML = `<strong>${i + 1}. ${soal.pertanyaan}</strong><br>
           ${soal.pilihan.map((p, idx) => `${String.fromCharCode(65 + idx)}. ${p}`).join('<br>')}<br>
           <em><strong>Jawaban Benar:</strong> ${soal.pilihan[soal.jawaban]}</em><br><br>`
         container.appendChild(div)
