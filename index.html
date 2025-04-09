@@ -33,6 +33,17 @@
     <div id="quizContainer"></div>
     <button id="loadMore" style="display:none">Muat Soal Berikutnya</button>
     <div id="result"></div>
+<button id="btnUlangiSalah" style="display:none">Kerjakan Ulang Soal Salah</button>
+<div id="modalFeedback" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#00000080; z-index:999; justify-content:center; align-items:center;">
+  <div style="background:#fff; padding:20px; border-radius:10px; width:90%; max-width:500px;">
+    <h4>Kirim Feedback Soal</h4>
+    <textarea id="feedbackInput" rows="6" placeholder="Tulis saran atau koreksi..."></textarea>
+    <br>
+    <button onclick="submitFeedback()">Kirim ke WhatsApp</button>
+    <button onclick="document.getElementById('modalFeedback').style.display='none'">Tutup</button>
+  </div>
+</div>
+
   </div>
 
   <!-- Musik Mini Player -->
@@ -237,6 +248,30 @@
       }
       result.prepend(skorText)
       result.appendChild(unduhBtn)
+
+soalSalahIndex = []
+soalAcak.forEach((soal, i) => {
+  const radios = document.getElementsByName(`soal_${i}`)
+  let jawaban = null
+  for (const radio of radios) if (radio.checked) jawaban = parseInt(radio.value)
+  const benar = jawaban === soal.jawaban
+  if (!benar) soalSalahIndex.push(i)
+})
+
+if (soalSalahIndex.length > 0) {
+  document.getElementById('btnUlangiSalah').style.display = 'block'
+}
+
+soalSalahIndex.forEach(i => {
+  const divs = document.querySelectorAll('.salah')
+  if (divs[i]) {
+    const btn = document.createElement('button')
+    btn.textContent = 'Laporkan Soal Ini'
+    btn.onclick = () => tampilkanFormFeedback(i)
+    divs[i].appendChild(btn)
+  }
+})
+
     }
 
     document.getElementById('quizForm').addEventListener('submit', function(e) {
@@ -294,6 +329,56 @@
     })
 
     document.getElementById('loadMore').addEventListener('click', tampilkanSoal)
-  </script>
+  
+let soalSalahIndex = []
+let feedbackIndex = null
+
+function tampilkanFormFeedback(i) {
+  feedbackIndex = i
+  document.getElementById('feedbackInput').value = ''
+  document.getElementById('modalFeedback').style.display = 'flex'
+}
+
+function submitFeedback() {
+  const fb = document.getElementById('feedbackInput').value.trim()
+  if (!fb) return alert('Tolong isi feedback terlebih dahulu.')
+
+  const soal = soalAcak[feedbackIndex]
+  const jawabanUser = soal.pilihan[jawabanPengguna[feedbackIndex]] || 'Tidak dijawab'
+  const jawabanBenar = soal.pilihan[soal.jawaban]
+  const teks = `*Feedback Soal Kuis:*
+Kategori: ${kategoriDipilih}
+Nomor Soal: ${feedbackIndex + 1}
+Pertanyaan: ${soal.pertanyaan}
+Jawaban Anda: ${jawabanUser}
+Jawaban Benar: ${jawabanBenar}
+
+Feedback:
+${fb}`
+
+  const noWa = '+6285299757333'
+  const link = `https://wa.me/${noWa}?text=${encodeURIComponent(teks)}`
+  window.open(link, '_blank')
+  document.getElementById('modalFeedback').style.display = 'none'
+}
+
+function ulangiSoalSalah() {
+  if (soalSalahIndex.length === 0) return alert('Tidak ada soal salah untuk diulang')
+  soalAcak = soalSalahIndex.map(i => soalAcak[i])
+  soalMax = soalAcak.length
+  soalDitampilkan = 0
+  jawabanPengguna = {}
+  waktuSisa = soalMax * 60
+
+  document.getElementById('quizContainer').innerHTML = ''
+  document.getElementById('result').innerHTML = ''
+  document.getElementById('btnUlangiSalah').style.display = 'none'
+  tampilkanSoal()
+  mulaiTimer()
+}
+
+document.getElementById('btnUlangiSalah').onclick = ulangiSoalSalah
+
+</script>
 </body>
 </html>
