@@ -31,7 +31,7 @@
 <div style="max-width:800px;margin:10px auto 30px auto;padding:10px;background:#f5f5f5;border-radius:10px;">
   <label>Pitch: <input type="range" id="pitchRange" min="0" max="2" step="0.1" value="1"></label>
   <label style="margin-left:20px;">Rate: <input type="range" id="rateRange" min="0.5" max="2" step="0.1" value="1"></label>
-  <label style="margin-left:20px;">Volume: <input type="range" id="volumeRange" min="0" max="1" step="0.1" value="1"></label>
+  <label style="margin-left:20px;">Volume: <input type="range" id="volumeRange" min="0" max="1" step="0.1" value="1"></label> <button onclick="speechSynthesis.cancel()" style="margin-left:20px;">🔇 Stop</button>
 </div>
 
 <div id="timer" style="font-weight: bold; font-size: 18px; margin: 10px 0;"></div>
@@ -157,34 +157,52 @@
       }, 1000)
     }
 
-    function tampilkanSoal() {
-      const container = document.getElementById('quizContainer')
-      const jumlahLoad = 3
-      const sampai = Math.min(soalDitampilkan + jumlahLoad, soalMax)
+    
+function tampilkanSoal() {
+  const container = document.getElementById('quizContainer');
+  const jumlahLoad = 3;
+  const sampai = Math.min(soalDitampilkan + jumlahLoad, soalMax);
 
-      for (let i = soalDitampilkan; i < sampai; i++) {
-        const soal = soalAcak[i]
-        const div = document.createElement('div')
-        div.classList.add('soal')
-        div.innerHTML = `<h4>${i + 1}. ${soal.pertanyaan}</h4>
-          ${soal.pilihan.map((p, idx) => `<label><input type="radio" name="soal_${i}" value="${idx}"> ${p}</label><br>`).join('')}`
-        container.appendChild(div)
-      }
+  for (let i = soalDitampilkan; i < sampai; i++) {
+    const soal = soalAcak[i];
+    const div = document.createElement('div');
+    div.classList.add('soal');
+    
+    const semuaPilihan = soal.pilihan.map((p, idx) => String.fromCharCode(65 + idx) + ". " + p).join(". ");
+    const gabunganTeks = `Soal nomor ${i + 1}. ${soal.pertanyaan}. Pilihannya adalah: ${semuaPilihan}`;
 
-      soalDitampilkan = sampai
-      if (soalDitampilkan >= soalMax) {
-        document.getElementById('loadMore').style.display = 'none'
-        const selesaiBtn = document.createElement('button')
-        selesaiBtn.textContent = 'Selesai'
-        selesaiBtn.onclick = () => {
-          periksaJawaban()
-          document.getElementById('result').scrollIntoView({ behavior: 'smooth' })
-        }
-        container.appendChild(selesaiBtn)
-      } else {
-        document.getElementById('loadMore').style.display = 'block'
-      }
-    }
+    div.innerHTML = `
+      <h4>
+        ${i + 1}. ${soal.pertanyaan}
+        <button onclick="ucapkanTeks(\`${gabunganTeks.replace('`', '\`')}\`)" style="margin-left:10px;">🔊</button>
+        <button onclick="speechSynthesis.cancel()" style="margin-left:5px;">🔇</button>
+      </h4>
+      ${soal.pilihan.map((p, idx) => `
+        <label>
+          <input type="radio" name="soal_${i}" value="${idx}"> ${p}
+        </label><br>`).join('')}
+    `;
+    container.appendChild(div);
+
+    // Auto play TTS after element appended
+    ucapkanTeks(gabunganTeks);
+  }
+
+  soalDitampilkan = sampai;
+  if (soalDitampilkan >= soalMax) {
+    document.getElementById('loadMore').style.display = 'none';
+    const selesaiBtn = document.createElement('button');
+    selesaiBtn.textContent = 'Selesai';
+    selesaiBtn.onclick = () => {
+      periksaJawaban();
+      document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+    };
+    container.appendChild(selesaiBtn);
+  } else {
+    document.getElementById('loadMore').style.display = 'block';
+  }
+}
+
 
     function periksaJawaban() {
       clearInterval(timerInterval)
@@ -382,6 +400,17 @@ function ulangiSoalSalah() {
 
 document.getElementById('btnUlangiSalah').onclick = ulangiSoalSalah
 
+
+function ucapkanTeks(teks) {
+  const utterance = new SpeechSynthesisUtterance(teks)
+  utterance.lang = "id-ID"
+  utterance.pitch = parseFloat(document.getElementById('pitchRange').value)
+  utterance.rate = parseFloat(document.getElementById('rateRange').value)
+  utterance.volume = parseFloat(document.getElementById('volumeRange').value)
+  speechSynthesis.cancel()
+  speechSynthesis.speak(utterance)
+}
+
 </script>
 <script>
     function bacaSoal(index) {
@@ -393,7 +422,18 @@ document.getElementById('btnUlangiSalah').onclick = ulangiSoalSalah
       u.lang = 'id-ID'
       window.speechSynthesis.speak(u)
     }
-    </script>
+    
+function ucapkanTeks(teks) {
+  const utterance = new SpeechSynthesisUtterance(teks)
+  utterance.lang = "id-ID"
+  utterance.pitch = parseFloat(document.getElementById('pitchRange').value)
+  utterance.rate = parseFloat(document.getElementById('rateRange').value)
+  utterance.volume = parseFloat(document.getElementById('volumeRange').value)
+  speechSynthesis.cancel()
+  speechSynthesis.speak(utterance)
+}
+
+</script>
 
 <script>
 let synth = window.speechSynthesis
@@ -457,6 +497,17 @@ tampilkanSoal = function() {
     document.getElementById('loadMore').style.display = 'block'
   }
 }
+
+function ucapkanTeks(teks) {
+  const utterance = new SpeechSynthesisUtterance(teks)
+  utterance.lang = "id-ID"
+  utterance.pitch = parseFloat(document.getElementById('pitchRange').value)
+  utterance.rate = parseFloat(document.getElementById('rateRange').value)
+  utterance.volume = parseFloat(document.getElementById('volumeRange').value)
+  speechSynthesis.cancel()
+  speechSynthesis.speak(utterance)
+}
+
 </script>
 
 </body>
