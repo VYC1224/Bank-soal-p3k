@@ -1,4 +1,4 @@
-<!-- index.html FINAL: kuis lengkap + musik playlist + sticky player -->
+<!-- index.html FINAL: kuis lengkap + musik playlist + sticky player + smart tracking soal -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -6,24 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kuis P3K untuk kekasihku</title>
   <link rel="stylesheet" href="style.css">
-  <style>
-    #musicPlayer {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: #f8f9fa;
-      padding: 10px 12px;
-      border: 1px solid #ccc;
-      border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      z-index: 1000;
-    }
-    #musicPlayer button {
-      margin: 0 5px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-  </style>
 </head>
 <body>
   <div class="container">
@@ -42,6 +24,8 @@
 
       <button type="submit">Mulai Kuis</button>
       <button type="button" id="lihatSemua">Lihat Semua Soal</button>
+      <button type="button" onclick="alert(tampilkanStatistik(document.getElementById('kategori').value))">Lihat Statistik</button>
+      <button type="button" onclick="localStorage.removeItem('kuis_progress');alert('Progress di-reset')">Reset Progress</button>
     </form>
 
     <div id="timer" style="font-weight: bold; font-size: 18px; margin: 10px 0;"></div>
@@ -78,6 +62,64 @@
     playBtn.onclick = () => {
       if (audio.paused) audio.play()
       else audio.pause()
+    }
+
+    const STORAGE_KEY = 'kuis_progress'
+    let progressData = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}')
+
+    function inisialisasiProgressKategori(kategori, totalSoal) {
+      if (!progressData[kategori]) {
+        progressData[kategori] = {
+          tampil: [],
+          benar: [],
+          salah: [],
+          total: totalSoal
+        }
+      }
+    }
+
+    function simpanProgress() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(progressData))
+    }
+
+    function updateStatistik(kategori, soalIndex, benarJawab) {
+      const stat = progressData[kategori]
+      if (!stat.tampil.includes(soalIndex)) stat.tampil.push(soalIndex)
+      const benarSet = new Set(stat.benar), salahSet = new Set(stat.salah)
+      benarSet.delete(soalIndex)
+      salahSet.delete(soalIndex)
+      if (benarJawab) benarSet.add(soalIndex)
+      else salahSet.add(soalIndex)
+      stat.benar = [...benarSet]; stat.salah = [...salahSet]
+      simpanProgress()
+    }
+
+    function ambilSoalSmart(data, kategori, jumlah) {
+      inisialisasiProgressKategori(kategori, data.length)
+      const stat = progressData[kategori]
+      const idxSalah = [...new Set(stat.salah)].filter(i => i < data.length)
+      const idxBelum = data.map((_, i) => i).filter(i => !stat.tampil.includes(i))
+      const selected = []
+      while (selected.length < jumlah && (idxSalah.length > 0 || idxBelum.length > 0)) {
+        if (idxSalah.length > 0) {
+          const i = idxSalah.splice(Math.floor(Math.random() * idxSalah.length), 1)[0]
+          selected.push(data[i])
+        } else if (idxBelum.length > 0) {
+          const i = idxBelum.splice(Math.floor(Math.random() * idxBelum.length), 1)[0]
+          selected.push(data[i])
+        }
+      }
+      const sisa = data.filter(s => !selected.includes(s))
+      while (selected.length < jumlah && sisa.length > 0) {
+        const i = Math.floor(Math.random() * sisa.length)
+        selected.push(sisa.splice(i, 1)[0])
+      }
+      return selected
+    }
+
+    function tampilkanStatistik(kategori) {
+      const s = progressData[kategori] || { tampil: [], benar: [], salah: [], total: 0 }
+      return `Kategori "${kategori}": ${s.tampil.length}/${s.total} soal sudah muncul\nBenar: ${s.benar.length}, Salah: ${s.salah.length}`
     }
 
     let soalData = [], soalAcak = [], soalDitampilkan = 0, soalMax = 0
@@ -149,6 +191,7 @@
         }
         jawabanPengguna[i] = jawaban
         const benarJawab = jawaban === soal.jawaban
+        updateStatistik(kategoriDipilih, soal.index, benarJawab)
         if (benarJawab) benar++
         else {
           const div = document.createElement('div')
@@ -208,7 +251,8 @@
         .then(res => res.json())
         .then(data => {
           soalData = data[kategoriDipilih] || []
-          soalAcak = soalData.sort(() => 0.5 - Math.random()).slice(0, soalMax)
+          soalData.forEach((s, i) => s.index = i)
+          soalAcak = ambilSoalSmart(soalData, kategoriDipilih, soalMax)
           document.getElementById('quizContainer').innerHTML = ''
           document.getElementById('result').innerHTML = ''
           document.getElementById('searchInput').style.display = 'none'
