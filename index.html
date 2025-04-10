@@ -170,6 +170,10 @@
         div.innerHTML = `
           <h4>
             ${i + 1}. ${soal.pertanyaan}
+            <span class="tts-controls">
+              <button class="tts-play" onclick="playTTS(${i})">🔊</button>
+              <button class="tts-stop" onclick="stopTTS()">🔇</button>
+            </span>
           </h4>
           ${soal.pilihan.map((p, idx) => `
             <label>
@@ -443,6 +447,24 @@ ${fb}`
       `;
       document.getElementById('hasilPeriksa').innerHTML = hasilOutput;
     });
+</script>
+<script>
+  function playTTS(index) {
+  const soal = soalAcak[index]; // Ambil soal berdasarkan indeks
+  let text = soal.pertanyaan + ". ";
+  soal.pilihan.forEach((pilihan, idx) => {
+    const huruf = String.fromCharCode(65 + idx); // A, B, C, D
+    text += `${huruf}. ${pilihan}. `;
+  });
+
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'id-ID'; // Bahasa Indonesia
+  speechSynthesis.speak(utterance);
+}
+
+function stopTTS() {
+  speechSynthesis.cancel();
+}
 </script>
 </body>
 </html>
