@@ -1,6 +1,4 @@
-<!-- index.html FINAL: kuis lengkap + musik playlist + sticky player + smart tracking soal -->
 <!DOCTYPE html>
-
 <html lang="id">
 <head>
 <meta charset="utf-8"/>
@@ -23,16 +21,10 @@
 <input id="jumlah" max="100" min="1" name="jumlah" type="number" value="5"/><br/><br/>
 <button type="submit">Mulai Kuis</button>
 <button id="lihatSemua" type="button">Lihat Semua Soal</button>
+<button id="acakSoal" type="button">Acak Soal</button>
 <button onclick="alert(tampilkanStatistik(document.getElementById('kategori').value))" type="button">Lihat Statistik</button>
 <button onclick="localStorage.removeItem('kuis_progress');alert('Progress di-reset')" type="button">Reset Progress</button>
 </form>
-
-<!-- Kontrol TTS -->
-<div style="max-width:800px;margin:10px auto 30px auto;padding:10px;background:#f5f5f5;border-radius:10px;">
-  <label>Pitch: <input type="range" id="pitchRange" min="0" max="2" step="0.1" value="1"></label>
-  <label style="margin-left:20px;">Rate: <input type="range" id="rateRange" min="0.5" max="2" step="0.1" value="1"></label>
-  <label style="margin-left:20px;">Volume: <input type="range" id="volumeRange" min="0" max="1" step="0.1" value="1"></label> <button onclick="speechSynthesis.cancel()" style="margin-left:20px;">🔇 Stop</button>
-</div>
 
 <div id="timer" style="font-weight: bold; font-size: 18px; margin: 10px 0;"></div>
 <input id="searchInput" placeholder="Cari pertanyaan..." style="width:100%; margin-top:20px; padding:10px; display:none;" type="text"/>
@@ -40,6 +32,14 @@
 <button id="loadMore" style="display:none">Muat Soal Berikutnya</button>
 <div id="result"></div>
 <button id="btnUlangiSalah" style="display:none">Kerjakan Ulang Soal Salah</button>
+<div id="acakSoalContainer" style="display:none; margin-top:20px;">
+  <h3>Soal Acak:</h3>
+  <textarea id="soalAcakOutput" readonly style="width:100%; height:200px; margin-bottom:10px;"></textarea>
+  <label for="jawabanInput">Masukkan Jawaban:</label>
+  <input id="jawabanInput" type="text" placeholder="Contoh: 1a 2b 3c 4d 5a" style="width:100%; margin-bottom:10px; padding:10px;"/>
+  <button id="periksaJawaban" type="button">Periksa</button>
+  <div id="hasilPeriksa" style="margin-top:20px;"></div>
+</div>
 <div id="modalFeedback" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#00000080; z-index:999; justify-content:center; align-items:center;">
 <div style="background:#fff; padding:20px; border-radius:10px; width:90%; max-width:500px;">
 <h4>Kirim Feedback Soal</h4>
@@ -157,53 +157,44 @@
       }, 1000)
     }
 
+    function tampilkanSoal() {
+      const container = document.getElementById('quizContainer');
+      const jumlahLoad = 3;
+      const sampai = Math.min(soalDitampilkan + jumlahLoad, soalMax);
+
+      for (let i = soalDitampilkan; i < sampai; i++) {
+        const soal = soalAcak[i];
+        const div = document.createElement('div');
+        div.classList.add('soal');
+
+        div.innerHTML = `
+          <h4>
+            ${i + 1}. ${soal.pertanyaan}
+          </h4>
+          ${soal.pilihan.map((p, idx) => `
+            <label>
+              <input type="radio" name="soal_${i}" value="${idx}"> ${p}
+            </label><br>`).join('')}
+        `;
+        container.appendChild(div);
+      }
+
+      soalDitampilkan = sampai;
+      if (soalDitampilkan >= soalMax) {
+        document.getElementById('loadMore').style.display = 'none';
+        const selesaiBtn = document.createElement('button');
+        selesaiBtn.textContent = 'Selesai';
+        selesaiBtn.onclick = () => {
+          periksaJawaban();
+          document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+        };
+        container.appendChild(selesaiBtn);
+      } else {
+        document.getElementById('loadMore').style.display = 'block';
+      }
+    }
+
     
-function tampilkanSoal() {
-  const container = document.getElementById('quizContainer');
-  const jumlahLoad = 3;
-  const sampai = Math.min(soalDitampilkan + jumlahLoad, soalMax);
-
-  for (let i = soalDitampilkan; i < sampai; i++) {
-    const soal = soalAcak[i];
-    const div = document.createElement('div');
-    div.classList.add('soal');
-    
-    const semuaPilihan = soal.pilihan.map((p, idx) => String.fromCharCode(65 + idx) + ". " + p).join(". ");
-    const gabunganTeks = `Soal nomor ${i + 1}. ${soal.pertanyaan}. Pilihannya adalah: ${semuaPilihan}`;
-
-    div.innerHTML = `
-      <h4>
-        ${i + 1}. ${soal.pertanyaan}
-        <button onclick="ucapkanTeks(\`${gabunganTeks.replace('`', '\`')}\`)" style="margin-left:10px;">🔊</button>
-        <button onclick="speechSynthesis.cancel()" style="margin-left:5px;">🔇</button>
-      </h4>
-      ${soal.pilihan.map((p, idx) => `
-        <label>
-          <input type="radio" name="soal_${i}" value="${idx}"> ${p}
-        </label><br>`).join('')}
-    `;
-    container.appendChild(div);
-
-    // Auto play TTS after element appended
-    ucapkanTeks(gabunganTeks);
-  }
-
-  soalDitampilkan = sampai;
-  if (soalDitampilkan >= soalMax) {
-    document.getElementById('loadMore').style.display = 'none';
-    const selesaiBtn = document.createElement('button');
-    selesaiBtn.textContent = 'Selesai';
-    selesaiBtn.onclick = () => {
-      periksaJawaban();
-      document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
-    };
-    container.appendChild(selesaiBtn);
-  } else {
-    document.getElementById('loadMore').style.display = 'block';
-  }
-}
-
-
     function periksaJawaban() {
       clearInterval(timerInterval)
       document.getElementById('timer').textContent = ''
@@ -270,29 +261,28 @@ function tampilkanSoal() {
       result.prepend(skorText)
       result.appendChild(unduhBtn)
 
-soalSalahIndex = []
-soalAcak.forEach((soal, i) => {
-  const radios = document.getElementsByName(`soal_${i}`)
-  let jawaban = null
-  for (const radio of radios) if (radio.checked) jawaban = parseInt(radio.value)
-  const benar = jawaban === soal.jawaban
-  if (!benar) soalSalahIndex.push(i)
-})
+      soalSalahIndex = []
+      soalAcak.forEach((soal, i) => {
+        const radios = document.getElementsByName(`soal_${i}`)
+        let jawaban = null
+        for (const radio of radios) if (radio.checked) jawaban = parseInt(radio.value)
+        const benar = jawaban === soal.jawaban
+        if (!benar) soalSalahIndex.push(i)
+      })
 
-if (soalSalahIndex.length > 0) {
-  document.getElementById('btnUlangiSalah').style.display = 'block'
-}
+      if (soalSalahIndex.length > 0) {
+        document.getElementById('btnUlangiSalah').style.display = 'block'
+      }
 
-soalSalahIndex.forEach(i => {
-  const divs = document.querySelectorAll('.salah')
-  if (divs[i]) {
-    const btn = document.createElement('button')
-    btn.textContent = 'Laporkan Soal Ini'
-    btn.onclick = () => tampilkanFormFeedback(i)
-    divs[i].appendChild(btn)
-  }
-})
-
+      soalSalahIndex.forEach(i => {
+        const divs = document.querySelectorAll('.salah')
+        if (divs[i]) {
+          const btn = document.createElement('button')
+          btn.textContent = 'Laporkan Soal Ini'
+          btn.onclick = () => tampilkanFormFeedback(i)
+          divs[i].appendChild(btn)
+        }
+      })
     }
 
     document.getElementById('quizForm').addEventListener('submit', function(e) {
@@ -351,23 +341,23 @@ soalSalahIndex.forEach(i => {
 
     document.getElementById('loadMore').addEventListener('click', tampilkanSoal)
   
-let soalSalahIndex = []
-let feedbackIndex = null
+    let soalSalahIndex = []
+    let feedbackIndex = null
 
-function tampilkanFormFeedback(i) {
-  feedbackIndex = i
-  document.getElementById('feedbackInput').value = ''
-  document.getElementById('modalFeedback').style.display = 'flex'
-}
+    function tampilkanFormFeedback(i) {
+      feedbackIndex = i
+      document.getElementById('feedbackInput').value = ''
+      document.getElementById('modalFeedback').style.display = 'flex'
+    }
 
-function submitFeedback() {
-  const fb = document.getElementById('feedbackInput').value.trim()
-  if (!fb) return alert('Tolong isi feedback terlebih dahulu.')
+    function submitFeedback() {
+      const fb = document.getElementById('feedbackInput').value.trim()
+      if (!fb) return alert('Tolong isi feedback terlebih dahulu.')
 
-  const soal = soalAcak[feedbackIndex]
-  const jawabanUser = soal.pilihan[jawabanPengguna[feedbackIndex]] || 'Tidak dijawab'
-  const jawabanBenar = soal.pilihan[soal.jawaban]
-  const teks = `*Feedback Soal Kuis:*
+      const soal = soalAcak[feedbackIndex]
+      const jawabanUser = soal.pilihan[jawabanPengguna[feedbackIndex]] || 'Tidak dijawab'
+      const jawabanBenar = soal.pilihan[soal.jawaban]
+      const teks = `*Feedback Soal Kuis:*
 Kategori: ${kategoriDipilih}
 Nomor Soal: ${feedbackIndex + 1}
 Pertanyaan: ${soal.pertanyaan}
@@ -377,138 +367,82 @@ Jawaban Benar: ${jawabanBenar}
 Feedback:
 ${fb}`
 
-  const noWa = '+6285299757333'
-  const link = `https://wa.me/${noWa}?text=${encodeURIComponent(teks)}`
-  window.open(link, '_blank')
-  document.getElementById('modalFeedback').style.display = 'none'
-}
-
-function ulangiSoalSalah() {
-  if (soalSalahIndex.length === 0) return alert('Tidak ada soal salah untuk diulang')
-  soalAcak = soalSalahIndex.map(i => soalAcak[i])
-  soalMax = soalAcak.length
-  soalDitampilkan = 0
-  jawabanPengguna = {}
-  waktuSisa = soalMax * 60
-
-  document.getElementById('quizContainer').innerHTML = ''
-  document.getElementById('result').innerHTML = ''
-  document.getElementById('btnUlangiSalah').style.display = 'none'
-  tampilkanSoal()
-  mulaiTimer()
-}
-
-document.getElementById('btnUlangiSalah').onclick = ulangiSoalSalah
-
-
-function ucapkanTeks(teks) {
-  const utterance = new SpeechSynthesisUtterance(teks)
-  utterance.lang = "id-ID"
-  utterance.pitch = parseFloat(document.getElementById('pitchRange').value)
-  utterance.rate = parseFloat(document.getElementById('rateRange').value)
-  utterance.volume = parseFloat(document.getElementById('volumeRange').value)
-  speechSynthesis.cancel()
-  speechSynthesis.speak(utterance)
-}
-
-</script>
-<script>
-    function bacaSoal(index) {
-      window.speechSynthesis.cancel()
-      const soal = soalAcak[index]
-      let text = `Soal nomor ${index + 1}. ${soal.pertanyaan}. `
-      soal.pilihan.forEach((p, i) => text += `Pilihan ${String.fromCharCode(65+i)}: ${p}. `)
-      const u = new SpeechSynthesisUtterance(text)
-      u.lang = 'id-ID'
-      window.speechSynthesis.speak(u)
+      const noWa = '+6285299757333'
+      const link = `https://wa.me/${noWa}?text=${encodeURIComponent(teks)}`
+      window.open(link, '_blank')
+      document.getElementById('modalFeedback').style.display = 'none'
     }
-    
-function ucapkanTeks(teks) {
-  const utterance = new SpeechSynthesisUtterance(teks)
-  utterance.lang = "id-ID"
-  utterance.pitch = parseFloat(document.getElementById('pitchRange').value)
-  utterance.rate = parseFloat(document.getElementById('rateRange').value)
-  utterance.volume = parseFloat(document.getElementById('volumeRange').value)
-  speechSynthesis.cancel()
-  speechSynthesis.speak(utterance)
-}
 
-</script>
+    function ulangiSoalSalah() {
+      if (soalSalahIndex.length === 0) return alert('Tidak ada soal salah untuk diulang')
+      soalAcak = soalSalahIndex.map(i => soalAcak[i])
+      soalMax = soalAcak.length
+      soalDitampilkan = 0
+      jawabanPengguna = {}
+      waktuSisa = soalMax * 60
 
-<script>
-let synth = window.speechSynthesis
-let currentUtterance = null
-
-function bacaSoalDanPilihan(soalObj, index) {
-  if (!synth) return alert('Browser tidak mendukung TTS')
-  const teks = `Soal nomor ${index + 1}. ${soalObj.pertanyaan}. Pilihan: ` +
-    soalObj.pilihan.map((p, i) => `Pilihan ${String.fromCharCode(65 + i)}. ${p}`).join('. ')
-
-  if (synth.speaking) synth.cancel()
-
-  const utterance = new SpeechSynthesisUtterance(teks)
-  utterance.lang = 'id-ID'
-  utterance.pitch = parseFloat(document.getElementById('pitchRange')?.value || 1)
-  utterance.rate = parseFloat(document.getElementById('rateRange')?.value || 1)
-  utterance.volume = parseFloat(document.getElementById('volumeRange')?.value || 1)
-  currentUtterance = utterance
-  synth.speak(utterance)
-}
-
-function stopTTS() {
-  if (synth && synth.speaking) synth.cancel()
-}
-
-const originalTampilkanSoal = tampilkanSoal
-tampilkanSoal = function() {
-  const container = document.getElementById('quizContainer')
-  const jumlahLoad = 3
-  const sampai = Math.min(soalDitampilkan + jumlahLoad, soalMax)
-
-  for (let i = soalDitampilkan; i < sampai; i++) {
-    const soal = soalAcak[i]
-    const div = document.createElement('div')
-    div.classList.add('soal')
-    div.innerHTML = `
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <h4 style="margin:0;">${i + 1}. ${soal.pertanyaan}</h4>
-        <div>
-          <button onclick="bacaSoalDanPilihan(soalAcak[${i}], ${i})">🔊</button>
-          <button onclick="stopTTS()">🔇</button>
-        </div>
-      </div>
-      ${soal.pilihan.map((p, idx) =>
-        `<label><input type="radio" name="soal_${i}" value="${idx}"> ${p}</label><br>`
-      ).join('')}`
-    container.appendChild(div)
-  }
-
-  soalDitampilkan = sampai
-  if (soalDitampilkan >= soalMax) {
-    document.getElementById('loadMore').style.display = 'none'
-    const selesaiBtn = document.createElement('button')
-    selesaiBtn.textContent = 'Selesai'
-    selesaiBtn.onclick = () => {
-      periksaJawaban()
-      document.getElementById('result').scrollIntoView({ behavior: 'smooth' })
+      document.getElementById('quizContainer').innerHTML = ''
+      document.getElementById('result').innerHTML = ''
+      document.getElementById('btnUlangiSalah').style.display = 'none'
+      tampilkanSoal()
+      mulaiTimer()
     }
-    container.appendChild(selesaiBtn)
-  } else {
-    document.getElementById('loadMore').style.display = 'block'
-  }
-}
 
-function ucapkanTeks(teks) {
-  const utterance = new SpeechSynthesisUtterance(teks)
-  utterance.lang = "id-ID"
-  utterance.pitch = parseFloat(document.getElementById('pitchRange').value)
-  utterance.rate = parseFloat(document.getElementById('rateRange').value)
-  utterance.volume = parseFloat(document.getElementById('volumeRange').value)
-  speechSynthesis.cancel()
-  speechSynthesis.speak(utterance)
-}
+    document.getElementById('btnUlangiSalah').onclick = ulangiSoalSalah
 
+    document.getElementById('acakSoal').addEventListener('click', function() {
+      const kategori = document.getElementById('kategori').value;
+      const jumlah = parseInt(document.getElementById('jumlah').value);
+
+      fetch('soal.json')
+        .then(res => res.json())
+        .then(data => {
+          const soalData = data[kategori] || [];
+          const soalAcak = soalData.sort(() => Math.random() - 0.5).slice(0, jumlah);
+          const soalOutput = soalAcak.map((soal, index) => {
+            const pilihan = soal.pilihan.map((p, idx) => `${String.fromCharCode(97 + idx)}. ${p}`).join('\n');
+            return `${index + 1}. ${soal.pertanyaan}\n${pilihan}`;
+          }).join('\n\n');
+
+          document.getElementById('soalAcakOutput').value = soalOutput;
+          document.getElementById('acakSoalContainer').style.display = 'block';
+
+          // Simpan soal acak untuk pemeriksaan jawaban
+          window.soalAcak = soalAcak;
+        });
+    });
+
+    document.getElementById('periksaJawaban').addEventListener('click', function() {
+      const jawabanInput = document.getElementById('jawabanInput').value.trim().toLowerCase();
+      const jawabanArray = jawabanInput.split(' ').map(j => {
+        const [nomor, jawaban] = [parseInt(j.slice(0, -1)), j.slice(-1)];
+        return { nomor, jawaban };
+      });
+
+      const hasil = [];
+      let salah = 0;
+
+      jawabanArray.forEach(({ nomor, jawaban }) => {
+        const soal = window.soalAcak[nomor - 1];
+        if (soal) {
+          const jawabanBenar = String.fromCharCode(97 + soal.jawaban);
+          if (jawaban === jawabanBenar) {
+            hasil.push(`Soal ${nomor}: Benar`);
+          } else {
+            hasil.push(`Soal ${nomor}: Salah (Jawaban Benar: ${jawabanBenar})`);
+            salah++;
+          }
+        }
+      });
+
+      const hasilOutput = `
+        <h4>Hasil Pemeriksaan:</h4>
+        ${hasil.join('<br>')}
+        <br><br>
+        Total Salah: ${salah}
+      `;
+      document.getElementById('hasilPeriksa').innerHTML = hasilOutput;
+    });
 </script>
-
 </body>
 </html>
