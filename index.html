@@ -159,11 +159,8 @@
 
     function tampilkanSoal() {
       const container = document.getElementById('quizContainer');
-      const jumlahLoad = 3;
-      const sampai = Math.min(soalDitampilkan + jumlahLoad, soalMax);
-
-      for (let i = soalDitampilkan; i < sampai; i++) {
-        const soal = soalAcak[i];
+      container.innerHTML = ''; // Kosongkan container sebelum menampilkan soal
+      soalAcak.forEach((soal, i) => {
         const div = document.createElement('div');
         div.classList.add('soal');
 
@@ -181,22 +178,39 @@
             </label><br>`).join('')}
         `;
         container.appendChild(div);
-      }
+      });
 
-      soalDitampilkan = sampai;
-      if (soalDitampilkan >= soalMax) {
-        document.getElementById('loadMore').style.display = 'none';
-        const selesaiBtn = document.createElement('button');
-        selesaiBtn.textContent = 'Selesai';
-        selesaiBtn.onclick = () => {
-          periksaJawaban();
-          document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
-        };
-        container.appendChild(selesaiBtn);
-      } else {
-        document.getElementById('loadMore').style.display = 'block';
-      }
+      // Tambahkan tombol selesai di akhir soal
+      const selesaiBtn = document.createElement('button');
+      selesaiBtn.textContent = 'Selesai';
+      selesaiBtn.onclick = () => {
+        periksaJawaban();
+        document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+      };
+      container.appendChild(selesaiBtn);
     }
+
+    document.getElementById('quizForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      kategoriDipilih = document.getElementById('kategori').value;
+      soalMax = parseInt(document.getElementById('jumlah').value);
+      soalDitampilkan = 0;
+      jawabanPengguna = {};
+      waktuSisa = soalMax * 60;
+
+      fetch('soal.json')
+        .then(res => res.json())
+        .then(data => {
+          soalData = data[kategoriDipilih] || [];
+          soalData.forEach((s, i) => s.index = i);
+          soalAcak = ambilSoalSmart(soalData, kategoriDipilih, soalMax);
+          document.getElementById('quizContainer').innerHTML = '';
+          document.getElementById('result').innerHTML = '';
+          document.getElementById('searchInput').style.display = 'none';
+          tampilkanSoal(); // Tampilkan semua soal sekaligus
+          mulaiTimer();
+        });
+    });
 
     
     function periksaJawaban() {
@@ -288,28 +302,6 @@
         }
       })
     }
-
-    document.getElementById('quizForm').addEventListener('submit', function(e) {
-      e.preventDefault()
-      kategoriDipilih = document.getElementById('kategori').value
-      soalMax = parseInt(document.getElementById('jumlah').value)
-      soalDitampilkan = 0
-      jawabanPengguna = {}
-      waktuSisa = soalMax * 60
-
-      fetch('soal.json')
-        .then(res => res.json())
-        .then(data => {
-          soalData = data[kategoriDipilih] || []
-          soalData.forEach((s, i) => s.index = i)
-          soalAcak = ambilSoalSmart(soalData, kategoriDipilih, soalMax)
-          document.getElementById('quizContainer').innerHTML = ''
-          document.getElementById('result').innerHTML = ''
-          document.getElementById('searchInput').style.display = 'none'
-          tampilkanSoal()
-          mulaiTimer()
-        })
-    })
 
     document.getElementById('lihatSemua').addEventListener('click', function() {
       const kategori = document.getElementById('kategori').value
