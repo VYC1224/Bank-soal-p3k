@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Kuis P3K untuk kekasihku</title>
+<title>Kuis P3K</title>
 <link href="style.css" rel="stylesheet"/>
 
 <!-- Google tag (gtag.js) -->
@@ -19,7 +19,7 @@
 </head>
 <body>
 <div class="container">
-<h1>Kuis P3K untuk kekasihku</h1>
+<h1>Kuis P3K Untuk Kekasihku</h1>
 <form id="quizForm">
 <label for="kategori">Pilih Kategori:</label>
 <select id="kategori" name="kategori">
@@ -33,9 +33,75 @@
 <button type="submit">Mulai Kuis</button>
 <button id="lihatSemua" type="button">Lihat Semua Soal</button>
 <button id="acakSoal" type="button">Acak Soal</button>
-<button type="button">Lihat Statistik</button>
-<button type="button">Reset Progress</button>
+<button onclick="tampilkanStatistik(document.getElementById('kategori').value)" type="button">Lihat Statistik</button>
+<button onclick="localStorage.removeItem('kuis_progress');alert('Progress di-reset')" type="button">Reset Progress</button>
+<button id="tanyaAI" type="button">Tanya AI</button>
 </form>
+
+<!-- Tambahkan tombol Generate Gambar -->
+<button id="generateImageBtn" type="button" style="background-color: #66ccff; color: white; padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer;">Generate Gambar</button>
+
+<div id="aiContainer" style="display:none; margin-top:20px;">
+  <h3>💬 Tanya AI</h3>
+  <textarea id="userInput" placeholder="Tulis pertanyaanmu di sini..." style="width:100%; height:80px; padding:10px; margin-bottom:10px;"></textarea>
+  <button id="askBtn" style="background-color:#66ccff; color:white; padding:10px 20px; border:none; border-radius:8px; cursor:pointer;">Tanya AI</button>
+  <div id="response" style="margin-top:20px; background:#f0f8ff; padding:15px; border-radius:8px; box-shadow:0 0 5px rgba(0,0,0,0.1); white-space:pre-wrap;"></div>
+</div>
+
+<script>
+  // Event listener untuk tombol Generate Gambar
+  document.getElementById('generateImageBtn').addEventListener('click', () => {
+    // URL server Stable Diffusion
+    const stableDiffusionUrl = 'http://127.0.0.1:7860';
+    
+    // Buka URL di tab baru
+    window.open(stableDiffusionUrl, '_blank');
+  });
+
+  document.getElementById('tanyaAI').addEventListener('click', () => {
+    const aiContainer = document.getElementById('aiContainer');
+    aiContainer.style.display = aiContainer.style.display === 'none' ? 'block' : 'none';
+  });
+
+  document.getElementById('askBtn').addEventListener('click', async () => {
+    const userMessage = document.getElementById('userInput').value;
+
+    const payload = {
+      model: "lmstudio-community/Meta-Llama-3-8B-Instruct-GGUF",
+      messages: [
+        {
+          role: "system",
+          content: "Kamu adalah asisten yang selalu menjawab dalam Bahasa Indonesia dan bersikap romantis, lembut, serta penuh cinta."
+        },
+        {
+          role: "user",
+          content: userMessage
+        }
+      ]
+    };
+
+    const resEl = document.getElementById('response');
+    resEl.textContent = "⏳ Sedang memikirkan jawaban...";
+
+    try {
+      const response = await fetch("http://localhost:1234/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await response.json();
+      const reply = data.choices?.[0]?.message?.content || "❌ Tidak ada balasan.";
+
+      resEl.textContent = reply;
+    } catch (err) {
+      resEl.textContent = "⚠️ Gagal menghubungi AI. Pastikan LM Studio sedang berjalan.";
+      console.error(err);
+    }
+  });
+</script>
 
 <div id="timer" style="font-weight: bold; font-size: 18px; margin: 10px 0;"></div>
 <input id="searchInput" placeholder="Cari pertanyaan..." style="width:100%; margin-top:20px; padding:10px; display:none;" type="text"/>
@@ -60,21 +126,6 @@
 <button onclick="document.getElementById('modalFeedback').style.display='none'">Tutup</button>
 </div>
 </div>
-<div id="modalStatistik" class="modal">
-  <div class="modal-content">
-    <h3>Statistik Kategori</h3>
-    <p id="statistikContent"></p>
-    <button onclick="closeModal('modalStatistik')">Tutup</button>
-  </div>
-</div>
-
-<div id="modalReset" class="modal">
-  <div class="modal-content">
-    <h3>Reset Progress</h3>
-    <p>Apakah Anda yakin ingin mereset semua progress?</p>
-    <button onclick="resetProgress()">Ya, Reset</button>
-    <button onclick="closeModal('modalReset')">Batal</button>
-  </div>
 </div>
 <!-- Musik Mini Player -->
 <div id="musicPlayer">
@@ -159,17 +210,20 @@
 
     function tampilkanStatistik(kategori) {
       const s = progressData[kategori] || { tampil: [], benar: [], salah: [], total: 0 };
-      const statistikText = `Kategori "${kategori}": ${s.tampil.length}/${s.total} soal sudah muncul<br>
-        Benar: ${s.benar.length}, Salah: ${s.salah.length}`;
+      const statistikText = `
+        Kategori: <strong>${kategori}</strong><br>
+        Soal Muncul: ${s.tampil.length}/${s.total}<br>
+        Benar: ${s.benar.length}<br>
+        Salah: ${s.salah.length}
+      `;
+
+      // Tampilkan statistik di modal
       document.getElementById('statistikContent').innerHTML = statistikText;
-      showModal('modalStatistik');
+      document.getElementById('statistikModal').style.display = 'block';
     }
 
-    function resetProgress() {
-      localStorage.removeItem('kuis_progress');
-      progressData = {};
-      closeModal('modalReset');
-      alert('Progress berhasil di-reset!');
+    function closeStatistikModal() {
+      document.getElementById('statistikModal').style.display = 'none';
     }
 
     let soalData = [], soalAcak = [], soalDitampilkan = 0, soalMax = 0
@@ -353,17 +407,19 @@
     })
 
     function renderSemuaSoal(soalList) {
-      const container = document.getElementById('quizContainer')
-      container.innerHTML = ''
+      const container = document.getElementById('quizContainer');
+      container.innerHTML = '';
       soalList.forEach((soal, i) => {
-        const div = document.createElement('div')
-        div.classList.add('soal')
-        div.innerHTML = `<strong>${i + 1}. ${soal.pertanyaan}</strong><br>
+        const div = document.createElement('div');
+        div.classList.add('soal');
+        div.innerHTML = `
+          <strong>${i + 1}. ${soal.pertanyaan}</strong><br>
           ${soal.pilihan.map((p, idx) => `${String.fromCharCode(65 + idx)}. ${p}`).join('<br>')}<br>
           <em><strong>Jawaban Benar:</strong> ${soal.pilihan[soal.jawaban]}</em><br><br>
-          <button onclick="tampilkanFormFeedbackAll(${i})">Laporkan Soal</button>`
-        container.appendChild(div)
-      })
+          <button class="laporkanSoalBtn" onclick="tampilkanFormFeedbackSemua(${i})">Laporkan Soal Ini</button>
+        `;
+        container.appendChild(div);
+      });
     }
 
     document.getElementById('searchInput').addEventListener('input', function() {
@@ -384,26 +440,22 @@
     }
 
     function submitFeedback() {
-      const fb = document.getElementById('feedbackInput').value.trim()
-      if (!fb) return alert('Tolong isi feedback terlebih dahulu.')
+      const fb = document.getElementById('feedbackInput').value.trim();
+      if (!fb) return alert('Tolong isi feedback terlebih dahulu.');
 
-      const soal = soalAcak[feedbackIndex]
-      const jawabanUser = soal.pilihan[jawabanPengguna[feedbackIndex]] || 'Tidak dijawab'
-      const jawabanBenar = soal.pilihan[soal.jawaban]
+      const soal = semuaSoal[feedbackIndex];
       const teks = `*Feedback Soal Kuis:*
-Kategori: ${kategoriDipilih}
 Nomor Soal: ${feedbackIndex + 1}
 Pertanyaan: ${soal.pertanyaan}
-Jawaban Anda: ${jawabanUser}
-Jawaban Benar: ${jawabanBenar}
+Jawaban Benar: ${soal.pilihan[soal.jawaban]}
 
 Feedback:
-${fb}`
+${fb}`;
 
-      const noWa = '+6285299757333'
-      const link = `https://wa.me/${noWa}?text=${encodeURIComponent(teks)}`
-      window.open(link, '_blank')
-      document.getElementById('modalFeedback').style.display = 'none'
+      const noWa = '+6285299757333'; // Ganti dengan nomor WhatsApp tujuan
+      const link = `https://wa.me/${noWa}?text=${encodeURIComponent(teks)}`;
+      window.open(link, '_blank');
+      document.getElementById('modalFeedback').style.display = 'none';
     }
 
     function ulangiSoalSalah() {
@@ -477,47 +529,24 @@ ${fb}`
       document.getElementById('hasilPeriksa').innerHTML = hasilOutput;
     });
 
-    function showModal(id) {
-      document.getElementById(id).style.display = 'flex';
-    }
-
-    function closeModal(id) {
-      document.getElementById(id).style.display = 'none';
-    }
-
-    // Ganti tombol dengan modal
-    document.querySelector('button[onclick*="tampilkanStatistik"]').onclick = function () {
-      const kategori = document.getElementById('kategori').value;
-      tampilkanStatistik(kategori);
-    };
-
-    document.querySelector('button[onclick*="localStorage.removeItem"]').onclick = function () {
-      showModal('modalReset');
-    };
-
-    function tampilkanFormFeedbackAll(i) {
-      feedbackIndex = i;
-      document.getElementById('feedbackInputAll').value = '';
-      document.getElementById('modalFeedbackAll').style.display = 'flex';
-    }
-
-    function submitFeedbackAll() {
-      const fb = document.getElementById('feedbackInputAll').value.trim();
-      if (!fb) return alert('Tolong isi feedback terlebih dahulu.');
-
-      const soal = semuaSoal[feedbackIndex];
-      const teks = `*Feedback Soal Kuis:*
-Kategori: ${kategoriDipilih}
-Nomor Soal: ${feedbackIndex + 1}
-Pertanyaan: ${soal.pertanyaan}
-
-Feedback:
-${fb}`;
-
-      const noWa = '+6285299757333';
+    function laporkanSoal(index) {
+      const soal = semuaSoal[index];
+      const feedback = prompt("Tulis feedback Anda untuk soal ini:");
+      if (!feedback) {
+        alert("Feedback tidak boleh kosong.");
+        return;
+      }
+    
+      const teks = `*Laporan Soal Kuis:*\n\nNomor Soal: ${index + 1}\nPertanyaan: ${soal.pertanyaan}\nJawaban Benar: ${soal.pilihan[soal.jawaban]}\n\n*Feedback:*\n${feedback}`;
+      const noWa = '+6285299757333'; // Ganti dengan nomor WhatsApp tujuan
       const link = `https://wa.me/${noWa}?text=${encodeURIComponent(teks)}`;
       window.open(link, '_blank');
-      document.getElementById('modalFeedbackAll').style.display = 'none';
+    }
+
+    function tampilkanFormFeedbackSemua(i) {
+      feedbackIndex = i;
+      document.getElementById('feedbackInput').value = '';
+      document.getElementById('modalFeedback').style.display = 'flex';
     }
 </script>
 <script>
@@ -538,14 +567,11 @@ function stopTTS() {
   speechSynthesis.cancel();
 }
 </script>
-<!-- Tambahkan tombol Laporkan Soal di setiap soal -->
-<div id="modalFeedbackAll" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#00000080; z-index:999; justify-content:center; align-items:center;">
-  <div style="background:#fff; padding:20px; border-radius:10px; width:90%; max-width:500px;">
-    <h4>Kirim Feedback Soal</h4>
-    <textarea id="feedbackInputAll" placeholder="Tulis saran atau koreksi..." rows="6"></textarea>
-    <br/>
-    <button onclick="submitFeedbackAll()">Kirim ke WhatsApp</button>
-    <button onclick="document.getElementById('modalFeedbackAll').style.display='none'">Tutup</button>
+<div id="statistikModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeStatistikModal()">&times;</span>
+    <h3>Statistik Kategori</h3>
+    <p id="statistikContent"></p>
   </div>
 </div>
 </body>
