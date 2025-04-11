@@ -33,8 +33,8 @@
 <button type="submit">Mulai Kuis</button>
 <button id="lihatSemua" type="button">Lihat Semua Soal</button>
 <button id="acakSoal" type="button">Acak Soal</button>
-<button onclick="alert(tampilkanStatistik(document.getElementById('kategori').value))" type="button">Lihat Statistik</button>
-<button onclick="localStorage.removeItem('kuis_progress');alert('Progress di-reset')" type="button">Reset Progress</button>
+<button type="button">Lihat Statistik</button>
+<button type="button">Reset Progress</button>
 </form>
 
 <div id="timer" style="font-weight: bold; font-size: 18px; margin: 10px 0;"></div>
@@ -60,6 +60,21 @@
 <button onclick="document.getElementById('modalFeedback').style.display='none'">Tutup</button>
 </div>
 </div>
+<div id="modalStatistik" class="modal">
+  <div class="modal-content">
+    <h3>Statistik Kategori</h3>
+    <p id="statistikContent"></p>
+    <button onclick="closeModal('modalStatistik')">Tutup</button>
+  </div>
+</div>
+
+<div id="modalReset" class="modal">
+  <div class="modal-content">
+    <h3>Reset Progress</h3>
+    <p>Apakah Anda yakin ingin mereset semua progress?</p>
+    <button onclick="resetProgress()">Ya, Reset</button>
+    <button onclick="closeModal('modalReset')">Batal</button>
+  </div>
 </div>
 <!-- Musik Mini Player -->
 <div id="musicPlayer">
@@ -143,8 +158,18 @@
     }
 
     function tampilkanStatistik(kategori) {
-      const s = progressData[kategori] || { tampil: [], benar: [], salah: [], total: 0 }
-      return `Kategori "${kategori}": ${s.tampil.length}/${s.total} soal sudah muncul\nBenar: ${s.benar.length}, Salah: ${s.salah.length}`
+      const s = progressData[kategori] || { tampil: [], benar: [], salah: [], total: 0 };
+      const statistikText = `Kategori "${kategori}": ${s.tampil.length}/${s.total} soal sudah muncul<br>
+        Benar: ${s.benar.length}, Salah: ${s.salah.length}`;
+      document.getElementById('statistikContent').innerHTML = statistikText;
+      showModal('modalStatistik');
+    }
+
+    function resetProgress() {
+      localStorage.removeItem('kuis_progress');
+      progressData = {};
+      closeModal('modalReset');
+      alert('Progress berhasil di-reset!');
     }
 
     let soalData = [], soalAcak = [], soalDitampilkan = 0, soalMax = 0
@@ -335,7 +360,8 @@
         div.classList.add('soal')
         div.innerHTML = `<strong>${i + 1}. ${soal.pertanyaan}</strong><br>
           ${soal.pilihan.map((p, idx) => `${String.fromCharCode(65 + idx)}. ${p}`).join('<br>')}<br>
-          <em><strong>Jawaban Benar:</strong> ${soal.pilihan[soal.jawaban]}</em><br><br>`
+          <em><strong>Jawaban Benar:</strong> ${soal.pilihan[soal.jawaban]}</em><br><br>
+          <button onclick="tampilkanFormFeedbackAll(${i})">Laporkan Soal</button>`
         container.appendChild(div)
       })
     }
@@ -450,6 +476,49 @@ ${fb}`
       `;
       document.getElementById('hasilPeriksa').innerHTML = hasilOutput;
     });
+
+    function showModal(id) {
+      document.getElementById(id).style.display = 'flex';
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).style.display = 'none';
+    }
+
+    // Ganti tombol dengan modal
+    document.querySelector('button[onclick*="tampilkanStatistik"]').onclick = function () {
+      const kategori = document.getElementById('kategori').value;
+      tampilkanStatistik(kategori);
+    };
+
+    document.querySelector('button[onclick*="localStorage.removeItem"]').onclick = function () {
+      showModal('modalReset');
+    };
+
+    function tampilkanFormFeedbackAll(i) {
+      feedbackIndex = i;
+      document.getElementById('feedbackInputAll').value = '';
+      document.getElementById('modalFeedbackAll').style.display = 'flex';
+    }
+
+    function submitFeedbackAll() {
+      const fb = document.getElementById('feedbackInputAll').value.trim();
+      if (!fb) return alert('Tolong isi feedback terlebih dahulu.');
+
+      const soal = semuaSoal[feedbackIndex];
+      const teks = `*Feedback Soal Kuis:*
+Kategori: ${kategoriDipilih}
+Nomor Soal: ${feedbackIndex + 1}
+Pertanyaan: ${soal.pertanyaan}
+
+Feedback:
+${fb}`;
+
+      const noWa = '+6285299757333';
+      const link = `https://wa.me/${noWa}?text=${encodeURIComponent(teks)}`;
+      window.open(link, '_blank');
+      document.getElementById('modalFeedbackAll').style.display = 'none';
+    }
 </script>
 <script>
   function playTTS(index) {
@@ -469,5 +538,15 @@ function stopTTS() {
   speechSynthesis.cancel();
 }
 </script>
+<!-- Tambahkan tombol Laporkan Soal di setiap soal -->
+<div id="modalFeedbackAll" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#00000080; z-index:999; justify-content:center; align-items:center;">
+  <div style="background:#fff; padding:20px; border-radius:10px; width:90%; max-width:500px;">
+    <h4>Kirim Feedback Soal</h4>
+    <textarea id="feedbackInputAll" placeholder="Tulis saran atau koreksi..." rows="6"></textarea>
+    <br/>
+    <button onclick="submitFeedbackAll()">Kirim ke WhatsApp</button>
+    <button onclick="document.getElementById('modalFeedbackAll').style.display='none'">Tutup</button>
+  </div>
+</div>
 </body>
 </html>
