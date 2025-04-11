@@ -266,7 +266,6 @@
             <label>
               <input type="radio" name="soal_${i}" value="${idx}"> ${p}
             </label><br>`).join('')}
-          <button class="skipBtn" onclick="skipSoal(${i})" style="background-color: #ffcc00; color: white; padding: 5px 10px; border: none; border-radius: 5px; cursor: pointer;">Skip</button>
         `;
         container.appendChild(div);
       });
@@ -279,120 +278,6 @@
         document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
       };
       container.appendChild(selesaiBtn);
-    }
-
-    let soalSkipped = []; // Array untuk menyimpan indeks soal yang di-skip
-
-    function skipSoal(index) {
-      if (!soalSkipped.includes(index)) {
-        soalSkipped.push(index);
-      }
-      const skipButton = document.querySelectorAll('.skipBtn')[index];
-      skipButton.textContent = '✔️ Skipped';
-      skipButton.disabled = true; // Nonaktifkan tombol setelah di-skip
-    }
-
-    function periksaJawaban() {
-      clearInterval(timerInterval);
-      document.getElementById('timer').textContent = '';
-      const result = document.getElementById('result');
-      result.innerHTML = '<h3>Hasil:</h3>';
-      let benar = 0;
-      const hasilDetail = [];
-
-      soalAcak.forEach((soal, i) => {
-        const radios = document.getElementsByName(`soal_${i}`);
-        let jawaban = null;
-        for (const radio of radios) {
-          if (radio.checked) {
-            jawaban = parseInt(radio.value);
-            break;
-          }
-        }
-
-        if (soalSkipped.includes(i)) {
-          const div = document.createElement('div');
-          div.classList.add('salah');
-          div.innerHTML = `<strong>Soal ${i + 1}:</strong> ${soal.pertanyaan}<br>
-            <em>Soal ini di-skip.</em><br>
-            <button class="laporkanSoalBtn" onclick="tampilkanFormFeedback(${i})">Laporkan Soal Ini</button>`;
-          result.appendChild(div);
-          return; // Lewati pemeriksaan untuk soal yang di-skip
-        }
-
-        const benarJawab = jawaban === soal.jawaban;
-        updateStatistik(kategoriDipilih, soal.index, benarJawab);
-        if (benarJawab) benar++;
-        else {
-          const div = document.createElement('div');
-          div.classList.add('salah');
-          div.innerHTML = `<strong>Soal ${i + 1}:</strong> ${soal.pertanyaan}<br>
-            Jawaban Anda: ${soal.pilihan[jawaban] || 'Tidak Dijawab'}<br>
-            Jawaban Benar: ${soal.pilihan[soal.jawaban]}<br>
-            <button class="laporkanSoalBtn" onclick="tampilkanFormFeedback(${i})">Laporkan Soal Ini</button>`;
-          result.appendChild(div);
-        }
-        hasilDetail.push({
-          pertanyaan: soal.pertanyaan,
-          jawaban_pengguna: soal.pilihan[jawaban] || null,
-          jawaban_benar: soal.pilihan[soal.jawaban],
-          benar: benarJawab
-        });
-      });
-
-      const skor = Math.round((benar / soalMax) * 100);
-      const skorText = document.createElement('div');
-      skorText.innerHTML = `<h4>Nilaita: ${skor}%</h4>`;
-      skorText.innerHTML += skor < 80 ? `<p>Yuk belajar lebih giat lagi ya sayangkuu ❤️</p>`
-        : skor > 90 ? `<p>Wah hebat sayangku! Bangga dan makin sayang 🥰</p>`
-        : `<p>Nice sayang, tetap semangat ya cintaku ✨</p>`;
-
-      const unduhBtn = document.createElement('button');
-      unduhBtn.textContent = 'Unduh Hasil Kuis';
-      unduhBtn.onclick = () => {
-        const hasilData = {
-          tanggal: new Date().toISOString(),
-          kategori: kategoriDipilih,
-          jumlah_soal: soalMax,
-          jumlah_benar: benar,
-          skor: skor,
-          jawaban: hasilDetail
-        };
-        const blob = new Blob([JSON.stringify(hasilData, null, 2)], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'hasil-kuis.json';
-        a.click();
-        URL.revokeObjectURL(url);
-      };
-      result.prepend(skorText);
-      result.appendChild(unduhBtn);
-    }
-
-    function tampilkanFormFeedback(i) {
-      feedbackIndex = i;
-      document.getElementById('feedbackInput').value = '';
-      document.getElementById('modalFeedback').style.display = 'flex';
-    }
-
-    function submitFeedback() {
-      const fb = document.getElementById('feedbackInput').value.trim();
-      if (!fb) return alert('Tolong isi feedback terlebih dahulu.');
-
-      const soal = soalAcak[feedbackIndex];
-      const teks = `*Feedback Soal Kuis:*
-Nomor Soal: ${feedbackIndex + 1}
-Pertanyaan: ${soal.pertanyaan}
-Jawaban Benar: ${soal.pilihan[soal.jawaban]}
-
-Feedback:
-${fb}`;
-
-      const noWa = '+6285299757333'; // Ganti dengan nomor WhatsApp tujuan
-      const link = `https://wa.me/${noWa}?text=${encodeURIComponent(teks)}`;
-      window.open(link, '_blank');
-      document.getElementById('modalFeedback').style.display = 'none';
     }
 
     document.getElementById('quizForm').addEventListener('submit', function(e) {
@@ -416,6 +301,97 @@ ${fb}`;
           mulaiTimer();
         });
     });
+
+    
+    function periksaJawaban() {
+      clearInterval(timerInterval)
+      document.getElementById('timer').textContent = ''
+      const result = document.getElementById('result')
+      result.innerHTML = '<h3>Hasil:</h3>'
+      let benar = 0
+      const hasilDetail = []
+
+      soalAcak.forEach((soal, i) => {
+        const radios = document.getElementsByName(`soal_${i}`)
+        let jawaban = null
+        for (const radio of radios) {
+          if (radio.checked) {
+            jawaban = parseInt(radio.value)
+            break
+          }
+        }
+        jawabanPengguna[i] = jawaban
+        const benarJawab = jawaban === soal.jawaban
+        updateStatistik(kategoriDipilih, soal.index, benarJawab)
+        if (benarJawab) benar++
+        else {
+          const div = document.createElement('div')
+          div.classList.add('salah')
+          div.innerHTML = `<strong>Soal ${i + 1}:</strong> ${soal.pertanyaan}<br>
+            Jawaban Anda: ${soal.pilihan[jawaban] || 'Tidak Dijawab'}<br>
+            Jawaban Benar: ${soal.pilihan[soal.jawaban]}`
+          result.appendChild(div)
+        }
+        hasilDetail.push({
+          pertanyaan: soal.pertanyaan,
+          jawaban_pengguna: soal.pilihan[jawaban] || null,
+          jawaban_benar: soal.pilihan[soal.jawaban],
+          benar: benarJawab
+        })
+      })
+
+      const skor = Math.round((benar / soalMax) * 100)
+      const skorText = document.createElement('div')
+      skorText.innerHTML = `<h4>Nilaita: ${skor}%</h4>`
+      skorText.innerHTML += skor < 80 ? `<p>Yuk belajar lebih giat lagi ya sayangkuu ❤️</p>`
+        : skor > 90 ? `<p>Wah hebat sayangku! Bangga dan makin sayang 🥰</p>`
+        : `<p>Nice sayang, tetap semangat ya cintaku ✨</p>`
+
+      const unduhBtn = document.createElement('button')
+      unduhBtn.textContent = 'Unduh Hasil Kuis'
+      unduhBtn.onclick = () => {
+        const hasilData = {
+          tanggal: new Date().toISOString(),
+          kategori: kategoriDipilih,
+          jumlah_soal: soalMax,
+          jumlah_benar: benar,
+          skor: skor,
+          jawaban: hasilDetail
+        }
+        const blob = new Blob([JSON.stringify(hasilData, null, 2)], { type: 'application/json' })
+        const url = URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = url
+        a.download = 'hasil-kuis.json'
+        a.click()
+        URL.revokeObjectURL(url)
+      }
+      result.prepend(skorText)
+      result.appendChild(unduhBtn)
+
+      soalSalahIndex = []
+      soalAcak.forEach((soal, i) => {
+        const radios = document.getElementsByName(`soal_${i}`)
+        let jawaban = null
+        for (const radio of radios) if (radio.checked) jawaban = parseInt(radio.value)
+        const benar = jawaban === soal.jawaban
+        if (!benar) soalSalahIndex.push(i)
+      })
+
+      if (soalSalahIndex.length > 0) {
+        document.getElementById('btnUlangiSalah').style.display = 'block'
+      }
+
+      soalSalahIndex.forEach(i => {
+        const divs = document.querySelectorAll('.salah')
+        if (divs[i]) {
+          const btn = document.createElement('button')
+          btn.textContent = 'Laporkan Soal Ini'
+          btn.onclick = () => tampilkanFormFeedback(i)
+          divs[i].appendChild(btn)
+        }
+      })
+    }
 
     document.getElementById('lihatSemua').addEventListener('click', function() {
       const kategori = document.getElementById('kategori').value
