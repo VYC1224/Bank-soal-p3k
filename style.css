@@ -266,3 +266,25 @@ button:hover {
 .laporkanSoalBtn:hover {
   background-color: #e05555;
 }
+
+.skipBtn {
+  background-color: #ffcc00;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.skipBtn:hover {
+  background-color: #e6b800;
+}
+
+#resultActions button {
+  margin: 10px 5px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
