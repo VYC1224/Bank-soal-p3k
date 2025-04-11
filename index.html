@@ -108,6 +108,19 @@
 <div id="quizContainer"></div>
 <button id="loadMore" style="display:none">Muat Soal Berikutnya</button>
 <div id="result"></div>
+
+<!-- Tambahkan bagian untuk soal yang di-skip -->
+<div id="skippedQuestions" style="margin-top: 30px; display: none;">
+  <h3>Soal yang Di-skip:</h3>
+  <div id="skippedQuestionsList"></div>
+</div>
+
+<!-- Tombol Download Hasil dan Kerjakan Ulang -->
+<div id="resultActions" style="margin-top: 20px; display: none;">
+  <button id="downloadResult" style="background-color: #66ccff; color: white; padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer;">Download Hasil</button>
+  <button id="retryWrongQuestions" style="background-color: #ff6666; color: white; padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer;">Kerjakan Ulang Soal yang Salah</button>
+</div>
+
 <button id="btnUlangiSalah" style="display:none">Kerjakan Ulang Soal Salah</button>
 <div id="acakSoalContainer" style="display:none; margin-top:20px;">
   <h3>Soal Acak:</h3>
@@ -247,6 +260,8 @@
       }, 1000)
     }
 
+    let skippedQuestions = []; // Array untuk menyimpan soal yang di-skip
+
     function tampilkanSoal() {
       const container = document.getElementById('quizContainer');
       container.innerHTML = ''; // Kosongkan container sebelum menampilkan soal
@@ -266,6 +281,7 @@
             <label>
               <input type="radio" name="soal_${i}" value="${idx}"> ${p}
             </label><br>`).join('')}
+          <button class="skipBtn" onclick="skipSoal(${i})" style="background-color: #ffcc00; color: white; padding: 5px 10px; border: none; border-radius: 8px; cursor: pointer;">Skip</button>
         `;
         container.appendChild(div);
       });
@@ -279,6 +295,125 @@
       };
       container.appendChild(selesaiBtn);
     }
+
+    function skipSoal(index) {
+      if (!skippedQuestions.includes(index)) {
+        skippedQuestions.push(index);
+        alert(`Soal nomor ${index + 1} telah di-skip.`);
+      }
+    }
+
+    function periksaJawaban() {
+      clearInterval(timerInterval);
+      document.getElementById('timer').textContent = '';
+      const result = document.getElementById('result');
+      result.innerHTML = '<h3>Hasil:</h3>';
+      let benar = 0;
+      const hasilDetail = [];
+
+      soalAcak.forEach((soal, i) => {
+        if (skippedQuestions.includes(i)) return; // Abaikan soal yang di-skip
+
+        const radios = document.getElementsByName(`soal_${i}`);
+        let jawaban = null;
+        for (const radio of radios) {
+          if (radio.checked) {
+            jawaban = parseInt(radio.value);
+            break;
+          }
+        }
+        jawabanPengguna[i] = jawaban;
+        const benarJawab = jawaban === soal.jawaban;
+        updateStatistik(kategoriDipilih, soal.index, benarJawab);
+        if (benarJawab) benar++;
+        else {
+          soalSalahIndex.push(i); // Tambahkan ke daftar soal salah
+          const div = document.createElement('div');
+          div.classList.add('salah');
+          div.innerHTML = `<strong>Soal ${i + 1}:</strong> ${soal.pertanyaan}<br>
+            Jawaban Anda: ${soal.pilihan[jawaban] || 'Tidak Dijawab'}<br>
+            Jawaban Benar: ${soal.pilihan[soal.jawaban]}`;
+          result.appendChild(div);
+        }
+        hasilDetail.push({
+          pertanyaan: soal.pertanyaan,
+          jawaban_pengguna: soal.pilihan[jawaban] || null,
+          jawaban_benar: soal.pilihan[soal.jawaban],
+          benar: benarJawab
+        });
+      });
+
+      const skor = Math.round((benar / soalMax) * 100);
+      const skorText = document.createElement('div');
+      skorText.innerHTML = `<h4>Nilai: ${skor}%</h4>`;
+      skorText.innerHTML += skor < 80 ? `<p>Yuk belajar lebih giat lagi ya sayangkuu ❤️</p>`
+        : skor > 90 ? `<p>Wah hebat sayangku! Bangga dan makin sayang 🥰</p>`
+        : `<p>Nice sayang, tetap semangat ya cintaku ✨</p>`;
+
+      result.prepend(skorText);
+
+      // Tampilkan soal yang di-skip
+      if (skippedQuestions.length > 0) {
+        const skippedContainer = document.getElementById('skippedQuestions');
+        const skippedList = document.getElementById('skippedQuestionsList');
+        skippedContainer.style.display = 'block';
+        skippedList.innerHTML = '';
+
+        skippedQuestions.forEach(index => {
+          const soal = soalAcak[index];
+          const div = document.createElement('div');
+          div.classList.add('salah');
+          div.innerHTML = `
+            <strong>Soal ${index + 1}:</strong> ${soal.pertanyaan}<br>
+            <button onclick="laporkanSoal(${index})" style="background-color: #ff6666; color: white; padding: 5px 10px; border: none; border-radius: 8px; cursor: pointer;">Laporkan Soal Ini</button>
+          `;
+          skippedList.appendChild(div);
+        });
+      }
+
+      // Tampilkan tombol Download Hasil dan Kerjakan Ulang
+      document.getElementById('resultActions').style.display = 'block';
+    }
+
+    function laporkanSoal(index) {
+      const soal = soalAcak[index];
+      const teks = `*Feedback Soal Kuis:*\n\nNomor Soal: ${index + 1}\nPertanyaan: ${soal.pertanyaan}\n\n*Feedback:*\nTolong periksa soal ini, ada masalah.`;
+      const noWa = '+6285299757333'; // Ganti dengan nomor WhatsApp tujuan
+      const link = `https://wa.me/${noWa}?text=${encodeURIComponent(teks)}`;
+      window.open(link, '_blank');
+    }
+
+    document.getElementById('downloadResult').addEventListener('click', () => {
+      const hasil = soalAcak.map((soal, i) => ({
+        nomor: i + 1,
+        pertanyaan: soal.pertanyaan,
+        jawaban_pengguna: soal.pilihan[jawabanPengguna[i]] || 'Tidak Dijawab',
+        jawaban_benar: soal.pilihan[soal.jawaban],
+        benar: jawabanPengguna[i] === soal.jawaban
+      }));
+      const blob = new Blob([JSON.stringify(hasil, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'hasil_kuis.json';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    document.getElementById('retryWrongQuestions').addEventListener('click', () => {
+      if (soalSalahIndex.length === 0) return alert('Tidak ada soal salah untuk diulang');
+      soalAcak = soalSalahIndex.map(i => soalAcak[i]);
+      soalMax = soalAcak.length;
+      soalDitampilkan = 0;
+      jawabanPengguna = {};
+      waktuSisa = soalMax * 60;
+
+      document.getElementById('quizContainer').innerHTML = '';
+      document.getElementById('result').innerHTML = '';
+      document.getElementById('resultActions').style.display = 'none';
+      tampilkanSoal();
+      mulaiTimer();
+    });
 
     document.getElementById('quizForm').addEventListener('submit', function(e) {
       e.preventDefault();
@@ -303,96 +438,6 @@
     });
 
     
-    function periksaJawaban() {
-      clearInterval(timerInterval)
-      document.getElementById('timer').textContent = ''
-      const result = document.getElementById('result')
-      result.innerHTML = '<h3>Hasil:</h3>'
-      let benar = 0
-      const hasilDetail = []
-
-      soalAcak.forEach((soal, i) => {
-        const radios = document.getElementsByName(`soal_${i}`)
-        let jawaban = null
-        for (const radio of radios) {
-          if (radio.checked) {
-            jawaban = parseInt(radio.value)
-            break
-          }
-        }
-        jawabanPengguna[i] = jawaban
-        const benarJawab = jawaban === soal.jawaban
-        updateStatistik(kategoriDipilih, soal.index, benarJawab)
-        if (benarJawab) benar++
-        else {
-          const div = document.createElement('div')
-          div.classList.add('salah')
-          div.innerHTML = `<strong>Soal ${i + 1}:</strong> ${soal.pertanyaan}<br>
-            Jawaban Anda: ${soal.pilihan[jawaban] || 'Tidak Dijawab'}<br>
-            Jawaban Benar: ${soal.pilihan[soal.jawaban]}`
-          result.appendChild(div)
-        }
-        hasilDetail.push({
-          pertanyaan: soal.pertanyaan,
-          jawaban_pengguna: soal.pilihan[jawaban] || null,
-          jawaban_benar: soal.pilihan[soal.jawaban],
-          benar: benarJawab
-        })
-      })
-
-      const skor = Math.round((benar / soalMax) * 100)
-      const skorText = document.createElement('div')
-      skorText.innerHTML = `<h4>Nilaita: ${skor}%</h4>`
-      skorText.innerHTML += skor < 80 ? `<p>Yuk belajar lebih giat lagi ya sayangkuu ❤️</p>`
-        : skor > 90 ? `<p>Wah hebat sayangku! Bangga dan makin sayang 🥰</p>`
-        : `<p>Nice sayang, tetap semangat ya cintaku ✨</p>`
-
-      const unduhBtn = document.createElement('button')
-      unduhBtn.textContent = 'Unduh Hasil Kuis'
-      unduhBtn.onclick = () => {
-        const hasilData = {
-          tanggal: new Date().toISOString(),
-          kategori: kategoriDipilih,
-          jumlah_soal: soalMax,
-          jumlah_benar: benar,
-          skor: skor,
-          jawaban: hasilDetail
-        }
-        const blob = new Blob([JSON.stringify(hasilData, null, 2)], { type: 'application/json' })
-        const url = URL.createObjectURL(blob)
-        const a = document.createElement('a')
-        a.href = url
-        a.download = 'hasil-kuis.json'
-        a.click()
-        URL.revokeObjectURL(url)
-      }
-      result.prepend(skorText)
-      result.appendChild(unduhBtn)
-
-      soalSalahIndex = []
-      soalAcak.forEach((soal, i) => {
-        const radios = document.getElementsByName(`soal_${i}`)
-        let jawaban = null
-        for (const radio of radios) if (radio.checked) jawaban = parseInt(radio.value)
-        const benar = jawaban === soal.jawaban
-        if (!benar) soalSalahIndex.push(i)
-      })
-
-      if (soalSalahIndex.length > 0) {
-        document.getElementById('btnUlangiSalah').style.display = 'block'
-      }
-
-      soalSalahIndex.forEach(i => {
-        const divs = document.querySelectorAll('.salah')
-        if (divs[i]) {
-          const btn = document.createElement('button')
-          btn.textContent = 'Laporkan Soal Ini'
-          btn.onclick = () => tampilkanFormFeedback(i)
-          divs[i].appendChild(btn)
-        }
-      })
-    }
-
     document.getElementById('lihatSemua').addEventListener('click', function() {
       const kategori = document.getElementById('kategori').value
       fetch('soal.json')
