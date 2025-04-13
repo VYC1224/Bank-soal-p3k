@@ -1,10 +1,61 @@
 /* style.css - Tampilan manis romantis pink & biru lembut */
-body {
+/* Base Styles */
+:root {
+  /* Light Theme */
+  --bg-gradient: linear-gradient(to bottom, #ffe6f0, #e0f0ff);
+  --container-bg: #fffafa;
+  --text-color: #2c3e50;
+  --accent-color: #ff66b2;
+  --secondary-color: #66b3ff;
+  --border-color: #ffcce5;
+  --button-text: #ffffff;
+  --input-text: #333333;
+  --input-bg: #ffffff;
+  --input-border: #cccccc;
+  --loading-bg: #f8f9fa;
+  --loading-text: #6c757d;
+}
+
+[data-theme="dark"] {
+  --bg-gradient: linear-gradient(to bottom, #1a1a1a, #2d2d2d);
+  --container-bg: #2d2d2d;
+  --text-color: #ffffff;
+  --accent-color: #ff66b2;
+  --secondary-color: #66b3ff;
+  --border-color: #333333;
+  --button-text: #ffffff;
+  --input-text: #ffffff;
+  --input-bg: #333333;
+  --input-border: #555555;
+  --loading-bg: #2d2d2d;
+  --loading-text: #ffffff;
+}
+
+[data-theme="blue"] {
+  --bg-gradient: linear-gradient(to bottom, #e0f7fa, #e3f2fd);
+  --container-bg: #e3f2fd;
+  --text-color: #1a237e;
+  --accent-color: #1976d2;
+  --secondary-color: #1565c0;
+  --border-color: #bbdefb;
+  --button-text: #ffffff;
+  --input-text: #1a237e;
+  --input-bg: #ffffff;
+  --input-border: #bbdefb;
+}
+
+/* Global Styles */
+* {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+}
+
+body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: var(--bg-gradient);
   color: var(--text-color);
+  line-height: 1.6;
 }
 
 .container {
@@ -15,15 +66,9 @@ body {
   border-radius: 20px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
   border: 2px dashed var(--border-color);
-  color: var(--text-color);
 }
 
-h1 {
-  text-align: center;
-  color: var(--accent-color);
-  margin-bottom: 30px;
-}
-
+/* Form Elements */
 label, input, select, button {
   font-size: 16px;
   color: var(--text-color);
@@ -57,103 +102,84 @@ button:hover {
   color: var(--button-text);
 }
 
+/* Question Styles */
 .soal {
-  background: #fff0f5;
+  background: var(--input-bg);
   padding: 15px;
   margin: 15px 0;
-  border-radius: 15px;
-  border-left: 6px solid #ff99cc;
-  box-shadow: 0 2px 6px rgba(255, 192, 203, 0.2);
-}
-
-.salah {
-  background-color: #ffe6e6;
-  border-left: 5px solid #ff4d4d;
-  margin-bottom: 12px;
-  padding: 10px;
   border-radius: 10px;
+  border: 1px solid var(--input-border);
 }
 
-.salah button {
-  background-color: #ffa3a3;
-  margin-top: 8px;
-  display: inline-block;
-  border: none;
-  border-radius: 8px;
-  padding: 6px 12px;
-  font-size: 14px;
-  color: #fff;
-  cursor: pointer;
-  transition: background 0.3s ease;
+.soal h4 {
+  color: var(--text-color);
+  margin-bottom: 10px;
 }
 
-.salah button:hover {
-  background-color: #ff6666;
+.soal label {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--text-color);
 }
 
-#timer {
-  color: #3366cc;
+/* Modal Styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: var(--container-bg);
+  margin: 15% auto;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border: 2px solid var(--border-color);
+}
+
+.modal h3 {
+  color: var(--text-color);
+  margin-bottom: 20px;
   text-align: center;
 }
 
-#result {
-  margin-top: 30px;
-  background-color: #f0f8ff;
-  padding: 20px;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(173, 216, 230, 0.4);
-}
-
-#musicPlayer {
-  background: #ffe0f0;
-  border: 1px solid #ffb3d9;
-  border-radius: 16px;
-  box-shadow: 0 2px 8px rgba(255, 105, 180, 0.2);
-}
-
-#musicPlayer button {
-  background: #ffb6c1;
-  border: none;
-  padding: 8px 10px;
-  border-radius: 8px;
-  color: white;
-  font-weight: bold;
-  transition: background 0.3s;
-}
-
-#musicPlayer button:hover {
-  background: #ff69b4;
-}
-
-#btnUlangiSalah {
-  background-color: #66b3ff;
-  padding: 10px 20px;
-  border-radius: 12px;
-  border: none;
-  color: #fff;
+.modal .close {
+  color: var(--text-color);
+  float: right;
+  font-size: 28px;
   font-weight: bold;
   cursor: pointer;
-  margin-top: 20px;
-  display: block;
 }
 
-#btnUlangiSalah:hover {
-  background-color: #3399ff;
+.modal .close:hover,
+.modal .close:focus {
+  color: var(--accent-color);
+  text-decoration: none;
 }
 
-#modalFeedback textarea {
+.modal textarea {
   width: 100%;
-  border-radius: 10px;
+  border-radius: 8px;
   padding: 10px;
   border: 1px solid var(--input-border);
   background-color: var(--input-bg);
-  color: var(--text-color);
+  color: var(--input-text);
   font-family: inherit;
   font-size: 15px;
   resize: vertical;
 }
 
-#modalFeedback button {
+.modal .report-button,
+.modal button {
   background-color: var(--secondary-color);
   color: var(--button-text);
   padding: 10px 20px;
@@ -161,57 +187,44 @@ button:hover {
   border-radius: 8px;
   cursor: pointer;
   margin-top: 10px;
+  display: block;
+  width: 100%;
+  font-size: 16px;
 }
 
-#modalFeedback button:hover {
+.modal .report-button:hover,
+.modal button:hover {
   background-color: #3399ff;
   color: var(--button-text);
 }
 
-.tts-controls {
-  float: right; /* Tempatkan di sebelah kanan */
-  display: flex;
-  gap: 5px; /* Jarak antar tombol */
-}
-
-.tts-play, .tts-stop {
-  background: none;
-  border: none;
-  font-size: 18px;
-  cursor: pointer;
-  color: #ff66b2;
-  transition: color 0.3s;
-}
-
-.tts-play:hover, .tts-stop:hover {
-  color: #e0559e;
-}
-
-.ai-response {
-  margin-top: 10px;
-  padding: 10px;
-  background-color: #f0f8ff;
-  border-left: 4px solid #3366cc;
-  border-radius: 5px;
+/* Loading State Styles */
+.loading-state {
+  background-color: var(--loading-bg);
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+  color: var(--loading-text);
   font-style: italic;
-  color: #333;
+  margin: 10px 0;
+  border-left: 4px solid var(--accent-color);
 }
 
-.ask-ai-btn {
-  background-color: #66ccff;
-  color: white;
-  padding: 5px 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 10px;
+.loading-state span {
+  color: var(--accent-color);
+  font-weight: bold;
 }
 
-.ask-ai-btn:hover {
-  background-color: #3399ff;
+[data-theme="dark"] .loading-state {
+  background-color: #2d2d2d;
+  color: #ffffff;
 }
 
-/* Theme Switcher Styles */
+[data-theme="dark"] .loading-state span {
+  color: #ff66b2;
+}
+
+/* Theme Switcher */
 .theme-switcher {
   text-align: right;
   margin-bottom: 20px;
@@ -232,45 +245,128 @@ button:hover {
   border-color: var(--accent-color);
 }
 
-/* Theme Variables */
-:root {
-  /* Light Theme */
-  --bg-gradient: linear-gradient(to bottom, #ffe6f0, #e0f0ff);
-  --container-bg: #fffafa;
-  --text-color: #2c3e50;
-  --accent-color: #ff66b2;
-  --secondary-color: #66b3ff;
-  --border-color: #ffcce5;
-  --button-text: #ffffff;
-  --input-text: #333333;
-  --input-bg: #ffffff;
-  --input-border: #cccccc;
+/* Timer */
+#timer {
+  color: var(--text-color);
+  text-align: center;
+  margin: 10px 0;
 }
 
-[data-theme="dark"] {
-  --bg-gradient: linear-gradient(to bottom, #1a1a1a, #2d2d2d);
-  --container-bg: #2d2d2d;
-  --text-color: #ffffff;
-  --accent-color: #ff66b2;
-  --secondary-color: #66b3ff;
-  --border-color: #333333;
-  --button-text: #ffffff;
-  --input-text: #ffffff;
-  --input-bg: #333333;
-  --input-border: #555555;
+/* Result Styles */
+#result {
+  margin-top: 30px;
+  background-color: var(--input-bg);
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-[data-theme="blue"] {
-  --bg-gradient: linear-gradient(to bottom, #e0f7fa, #e3f2fd);
-  --container-bg: #e3f2fd;
-  --text-color: #1a237e;
-  --accent-color: #1976d2;
-  --secondary-color: #1565c0;
-  --border-color: #bbdefb;
-  --button-text: #ffffff;
-  --input-text: #1a237e;
-  --input-bg: #ffffff;
-  --input-border: #bbdefb;
+#result h3 {
+  color: var(--text-color);
+  margin-bottom: 20px;
+}
+
+/* Music Player */
+#musicPlayer {
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  margin-top: 20px;
+}
+
+#musicPlayer button {
+  background: var(--input-bg);
+  border: none;
+  padding: 8px 10px;
+  border-radius: 8px;
+  color: var(--text-color);
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+#musicPlayer button:hover {
+  background: var(--accent-color);
+  color: var(--button-text);
+}
+
+/* AI Container */
+#aiContainer {
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 16px;
+  padding: 15px;
+  margin-top: 20px;
+}
+
+#aiContainer h3 {
+  color: var(--text-color);
+  margin-bottom: 15px;
+}
+
+#aiContainer textarea {
+  margin-bottom: 10px;
+}
+
+#aiContainer .ai-response {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: var(--input-bg);
+  border-left: 4px solid var(--accent-color);
+  border-radius: 5px;
+  font-style: italic;
+  color: var(--text-color);
+}
+
+/* TTS Controls */
+.tts-controls {
+  float: right;
+  display: flex;
+  gap: 5px;
+}
+
+.tts-play, .tts-stop {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: var(--accent-color);
+  transition: color 0.3s;
+}
+
+.tts-play:hover, .tts-stop:hover {
+  color: var(--secondary-color);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    margin: 20px;
+    padding: 20px;
+  }
+
+  .modal-content {
+    margin: 10% auto;
+    width: 95%;
+  }
+
+  button {
+    width: 100%;
+  }
 }
 
 /* Report Modal Styles */
