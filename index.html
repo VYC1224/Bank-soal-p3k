@@ -28,6 +28,32 @@
   </div>
 
   <div id="mainContent" class="container" style="display: none;">
+<!-- Flash Card Modal -->
+<div id="flashCardModal" class="modal">
+  <div class="modal-content flash-card-modal">
+    <span class="close" onclick="closeFlashCard()">&times;</span>
+    <div class="flash-card">
+      <div class="flash-card-inner">
+        <div class="flash-card-front">
+          <h3>Pertanyaan</h3>
+          <p id="cardQuestion"></p>
+        </div>
+        <div class="flash-card-back">
+          <h3>Jawaban</h3>
+          <p id="cardAnswer"></p>
+        </div>
+      </div>
+    </div>
+    <div class="flash-card-controls">
+      <button onclick="prevCard()" id="prevCard">&lt; Sebelumnya</button>
+      <button onclick="flipCard()" id="flipCard">Balik Kartu</button>
+      <button onclick="nextCard()" id="nextCard">Selanjutnya &gt;</button>
+    </div>
+    <div class="flash-card-footer">
+      <button onclick="closeFlashCard()" class="selesai-button">Selesai Belajar</button>
+    </div>
+  </div>
+</div>
     <div class="theme-switcher">
       <select id="themeSelect">
         <option value="light">Tema Terang</option>
@@ -47,7 +73,10 @@
 </select><br/><br/>
 <label for="jumlah">Jumlah Soal:</label>
 <input id="jumlah" max="100" min="1" name="jumlah" type="number" value="5"/><br/><br/>
+<div class="button-group">
 <button type="submit">Mulai Kuis</button>
+<button type="button" id="belajarDulu" class="belajar-button">Belajar Dulu</button>
+</div>
 <button id="lihatSemua" type="button">Lihat Semua Soal</button>
 <button id="acakSoal" type="button">Acak Soal</button>
 <button onclick="tampilkanStatistik(document.getElementById('kategori').value)" type="button">Lihat Statistik</button>
