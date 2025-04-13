@@ -27,7 +27,90 @@ function submitFeedback() {
 }
 
 // Theme Switcher
+// Flash Card Variables
+let currentCards = [];
+let currentCardIndex = 0;
+
+function showFlashCard() {
+  const kategori = document.getElementById('kategori').value;
+  const jumlah = parseInt(document.getElementById('jumlah').value);
+
+  // Fetch soal.json and prepare flash cards
+  fetch('soal.json')
+    .then(res => res.json())
+    .then(data => {
+      const soalData = data[kategori] || [];
+      currentCards = soalData
+        .sort(() => Math.random() - 0.5)
+        .slice(0, jumlah)
+        .map(soal => ({
+          question: soal.pertanyaan,
+          answer: soal.pilihan[soal.jawaban]
+        }));
+
+      if (currentCards.length > 0) {
+        currentCardIndex = 0;
+        updateCardContent();
+        document.getElementById('flashCardModal').style.display = 'block';
+      } else {
+        alert('Tidak ada soal tersedia untuk kategori ini');
+      }
+    });
+}
+
+function updateCardContent() {
+  document.getElementById('cardQuestion').textContent = currentCards[currentCardIndex].question;
+  document.getElementById('cardAnswer').textContent = currentCards[currentCardIndex].answer;
+  
+  // Update navigation buttons
+  document.getElementById('prevCard').disabled = currentCardIndex === 0;
+  document.getElementById('nextCard').disabled = currentCardIndex === currentCards.length - 1;
+}
+
+function flipCard() {
+  const flashCard = document.querySelector('.flash-card');
+  flashCard.classList.toggle('flipped');
+}
+
+function nextCard() {
+  if (currentCardIndex < currentCards.length - 1) {
+    currentCardIndex++;
+    updateCardContent();
+    document.querySelector('.flash-card').classList.remove('flipped');
+  }
+}
+
+function prevCard() {
+  if (currentCardIndex > 0) {
+    currentCardIndex--;
+    updateCardContent();
+    document.querySelector('.flash-card').classList.remove('flipped');
+  }
+}
+
+function closeFlashCard() {
+  document.getElementById('flashCardModal').style.display = 'none';
+  document.querySelector('.flash-card').classList.remove('flipped');
+}
+
 document.addEventListener('DOMContentLoaded', function() {
+  // Add event listener for Belajar Dulu button
+  document.getElementById('belajarDulu').addEventListener('click', showFlashCard);
+
+  // Close flash card modal when clicking outside
+  document.getElementById('flashCardModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+      closeFlashCard();
+    }
+  });
+
+  // Close flash card modal with Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closeFlashCard();
+    }
+  });
+
   const themeSelect = document.getElementById('themeSelect');
   const body = document.body;
 
