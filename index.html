@@ -93,25 +93,26 @@
 
   document.getElementById('askBtn').addEventListener('click', async () => {
     const userMessage = document.getElementById('userInput').value;
-
-    const payload = {
-      model: "lmstudio-community/Meta-Llama-3-8B-Instruct-GGUF",
-      messages: [
-        {
-          role: "system",
-          content: "Kamu adalah asisten yang selalu menjawab dalam Bahasa Indonesia dan bersikap romantis, lembut, serta penuh cinta."
-        },
-        {
-          role: "user",
-          content: userMessage
-        }
-      ]
-    };
-
-    const resEl = document.getElementById('response');
-    resEl.textContent = "⏳ Sedang memikirkan jawaban...";
-
+    const responseDiv = document.getElementById('response');
+    
+    // Show loading state
+    responseDiv.innerHTML = '<div class="loading-state">Sedang memikirkan jawaban...</div>';
+    
     try {
+      const payload = {
+        model: "lmstudio-community/Meta-Llama-3-8B-Instruct-GGUF",
+        messages: [
+          {
+            role: "system",
+            content: "Kamu adalah asisten yang selalu menjawab dalam Bahasa Indonesia dan bersikap romantis, lembut, serta penuh cinta."
+          },
+          {
+            role: "user",
+            content: userMessage
+          }
+        ]
+      };
+
       const response = await fetch("http://localhost:1234/v1/chat/completions", {
         method: "POST",
         headers: {
@@ -123,9 +124,10 @@
       const data = await response.json();
       const reply = data.choices?.[0]?.message?.content || "❌ Tidak ada balasan.";
 
-      resEl.textContent = reply;
+      // Replace loading state with actual response
+      responseDiv.innerHTML = reply;
     } catch (err) {
-      resEl.textContent = "⚠️ Gagal menghubungi AI. Pastikan LM Studio sedang berjalan.";
+      responseDiv.innerHTML = "⚠️ Gagal menghubungi AI. Pastikan LM Studio sedang berjalan.";
       console.error(err);
     }
   });
@@ -581,9 +583,9 @@ ${fb}`;
   function playTTS(index) {
   const soal = soalAcak[index]; // Ambil soal berdasarkan indeks
   let text = soal.pertanyaan + ". ";
-  soal.pilihan.forEach((pilihan, idx) => {
+  soal.pilihan.forEach((p, idx) => {
     const huruf = String.fromCharCode(65 + idx); // A, B, C, D
-    text += `${huruf}. ${pilihan}. `;
+    text += `${huruf}. ${p}. `;
   });
 
   const utterance = new SpeechSynthesisUtterance(text);
