@@ -20,8 +20,8 @@
   --bg-gradient: linear-gradient(to bottom, #1a1a1a, #2d2d2d);
   --container-bg: #2d2d2d;
   --text-color: #ffffff;
-  --accent-color: #ff66b2;
-  --secondary-color: #66b3ff;
+  --accent-color: #4a4a4a;
+  --secondary-color: #666666;
   --border-color: #333333;
   --button-text: #ffffff;
   --input-text: #ffffff;
@@ -94,7 +94,18 @@ button {
   border: none;
   border-radius: 12px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+[data-theme="dark"] button {
+  background-color: #4a4a4a;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] button:hover {
+  background-color: #666666;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 button:hover {
@@ -547,6 +558,7 @@ button:hover {
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  transition: opacity 0.3s ease;
 }
 
 .splash-content {
