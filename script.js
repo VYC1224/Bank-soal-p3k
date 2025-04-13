@@ -16,7 +16,7 @@ function submitFeedback() {
     return;
   }
 
-  const nomorWa = "6281234567890"; // Ganti ini dengan nomor tujuan WhatsApp yang benar
+  const nomorWa = "+6285299757333"; // Ganti ini dengan nomor tujuan WhatsApp yang benar
   const pesan = `Halo, saya ingin memberikan feedback untuk soal:\n\n${feedbackText}`;
   const url = `https://wa.me/${nomorWa}?text=${encodeURIComponent(pesan)}`;
 
