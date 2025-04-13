@@ -256,6 +256,11 @@
       document.getElementById('statistikModal').style.display = 'none';
     }
 
+    function confirmStatistik() {
+      closeStatistikModal();
+      alert("Statistik telah dikonfirmasi.");
+    }
+
     let soalData = [], soalAcak = [], soalDitampilkan = 0, soalMax = 0
     let jawabanPengguna = {}, semuaSoal = []
     let timerInterval, waktuSisa = 0, kategoriDipilih = ''
@@ -602,6 +607,9 @@ function stopTTS() {
     <span class="close" onclick="closeStatistikModal()">&times;</span>
     <h3>Statistik Kategori</h3>
     <p id="statistikContent"></p>
+    <div style="text-align: center; margin-top: 20px;">
+      <button onclick="confirmStatistik()" style="background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Konfirmasi</button>
+    </div>
   </div>
 </div>
 <script src =script.js></script>
