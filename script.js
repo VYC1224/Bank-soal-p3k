@@ -122,6 +122,33 @@ ${feedback}`;
     splashScreen.style.display = 'none';
     mainContent.style.display = 'block';
   });
+
+  // Add event listeners for closing the modal
+  window.addEventListener('load', function() {
+    // Close when clicking outside the modal
+    document.getElementById('statistikModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeStatistikModal();
+      }
+    });
+
+    // Close when pressing Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeStatistikModal();
+      }
+    });
+  });
+
+  function closeStatistikModal() {
+    const statistikModal = document.getElementById('statistikModal');
+    statistikModal.style.display = 'none';
+  }
+
+  function confirmStatistik() {
+    closeStatistikModal();
+    alert("Statistik telah dikonfirmasi.");
+  }
 });
 
 // Letakkan kode ini di bawah script.js saat ini.
