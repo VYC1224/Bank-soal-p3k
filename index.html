@@ -18,7 +18,24 @@
 
 </head>
 <body>
-<div class="container">
+  <!-- Splash Screen -->
+  <div id="splashScreen" class="splash-screen">
+    <div class="splash-content">
+      <h1>Selamat Datang di Kuis P3K</h1>
+      <p>Siap untuk menguji pengetahuanmu tentang P3K?</p>
+      <button id="startButton" class="start-button">Mulai Kuis</button>
+    </div>
+  </div>
+
+  <div id="mainContent" class="container" style="display: none;">
+    <div class="theme-switcher">
+      <select id="themeSelect">
+        <option value="light">Tema Terang</option>
+        <option value="dark">Tema Malam</option>
+        <option value="blue">Tema Biru</option>
+      </select>
+    </div>
+    <div class="container">
 <h1>Kuis P3K Untuk Kekasihku</h1>
 <form id="quizForm">
 <label for="kategori">Pilih Kategori:</label>
@@ -37,6 +54,17 @@
 <button onclick="localStorage.removeItem('kuis_progress');alert('Progress di-reset')" type="button">Reset Progress</button>
 <button id="tanyaAI" type="button">Tanya AI</button>
 </form>
+
+<!-- Report Question Modal -->
+<div id="reportModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeReportModal()">&times;</span>
+    <h3>Laporkan Soal</h3>
+    <div id="reportContent"></div>
+    <textarea id="reportFeedback" placeholder="Tulis feedback atau kritik Anda..." rows="4" style="width: 100%; margin: 10px 0; padding: 10px; border-radius: 8px;"></textarea>
+    <button onclick="sendReport()" class="report-button">Kirim ke WhatsApp</button>
+  </div>
+</div>
 
 <!-- Tambahkan tombol Generate Gambar -->
 <button id="generateImageBtn" type="button" style="background-color: #66ccff; color: white; padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer;">Generate Gambar</button>
@@ -575,5 +603,6 @@ function stopTTS() {
   </div>
 </div>
 <script src =script.js></script>
+</div>
 </body>
 </html>
