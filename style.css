@@ -20,12 +20,12 @@
   --bg-gradient: linear-gradient(to bottom, #1a1a1a, #2d2d2d);
   --container-bg: #2d2d2d;
   --text-color: #ffffff;
-  --accent-color: #4a4a4a;
-  --secondary-color: #666666;
-  --border-color: #333333;
+  --accent-color: #66b3ff;
+  --secondary-color: #4a4a4a;
+  --border-color: #555555;
   --button-text: #ffffff;
   --input-text: #ffffff;
-  --input-bg: #333333;
+  --input-bg: #1a1a1a;
   --input-border: #555555;
   --loading-bg: #2d2d2d;
   --loading-text: #ffffff;
@@ -119,12 +119,30 @@ label, input, select, button {
   backface-visibility: hidden;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start;
   padding: 20px;
   border-radius: 15px;
   background: var(--input-bg);
   border: 2px solid var(--border-color);
+  overflow-y: auto;
+  color: var(--text-color);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .flash-card-front,
+[data-theme="dark"] .flash-card-back {
+  background: #2d2d2d;
+  border-color: #555555;
+}
+
+[data-theme="dark"] .flash-card p,
+[data-theme="dark"] .flash-card h3 {
+  color: #ffffff;
+}
+
+[data-theme="dark"] .flash-card-front p,
+[data-theme="dark"] .flash-card-back p {
+  color: #ffffff;
 }
 
 .flash-card-back {
@@ -158,13 +176,25 @@ label, input, select, button {
 }
 
 .flash-card h3 {
-  margin-bottom: 15px;
+  margin: 0 0 15px 0;
   color: var(--accent-color);
+  position: sticky;
+  top: 0;
+  background: var(--input-bg);
+  padding: 10px;
+  z-index: 1;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .flash-card p {
   font-size: 18px;
   line-height: 1.6;
+  padding: 10px;
+  margin-top: 10px;
+  color: var(--text-color);
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
 }
 
 input[type="text"],
