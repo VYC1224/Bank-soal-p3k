@@ -118,9 +118,14 @@ ${feedback}`;
   const startButton = document.getElementById('startButton');
 
   startButton.addEventListener('click', function() {
-    // Hide splash screen and show main content
-    splashScreen.style.display = 'none';
-    mainContent.style.display = 'block';
+    // Fade out splash screen
+    splashScreen.style.opacity = '0';
+    
+    // After short transition, hide splash and show main content
+    setTimeout(() => {
+      splashScreen.style.display = 'none';
+      mainContent.style.display = 'block';
+    }, 300);
   });
 
   // Add event listeners for closing the modal
